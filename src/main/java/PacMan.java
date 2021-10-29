@@ -1,4 +1,5 @@
 import Controller.Listeners.PlayerInteractListener;
+import Model.DataBase;
 import View.Menu;
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TextCharacter;
@@ -11,19 +12,20 @@ import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 
+import java.awt.*;
 import java.io.IOException;
 
 public class PacMan {
-    public static void onEnable() throws IOException, InterruptedException {
-
-        DefaultTerminalFactory defaultTerminalFactory = new DefaultTerminalFactory();
-        Terminal terminal = defaultTerminalFactory.createTerminal();
-        Screen screen = new TerminalScreen(terminal);
-        screen.startScreen();
-
-        Menu menu = new Menu(screen, terminal);
+    public static void onEnable() throws IOException, InterruptedException, FontFormatException {
 
 
-//        PlayerInteractListener.onPlayerInteract(screen);
+        DataBase data = new DataBase();
+        data.getScreen().startScreen();
+        data.getScreen().setCursorPosition(null);
+        Menu menu = new Menu(data);
+        data.initializeMenu(menu);
+
+        PlayerInteractListener.onPlayerInteract(data);
+
     }
 }
