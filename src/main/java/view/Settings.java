@@ -21,7 +21,6 @@ public class Settings extends Menu {
 
     @Override
     public void initializeView() throws IOException {
-        screen.clear();
         int i = position.getRow();
         int y = 0;
         for (String menuOption : data.getMenuSettingsOptions()) {

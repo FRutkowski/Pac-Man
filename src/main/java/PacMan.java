@@ -1,5 +1,6 @@
 import controller.listeners.PlayerInteractListener;
 import model.DataBase;
+import view.Game;
 import view.MainMenu;
 import view.Menu;
 import view.Settings;
@@ -16,9 +17,11 @@ public class PacMan {
         data.getScreen().setCursorPosition(null);
         MainMenu mainMenu = new MainMenu(data);
         Settings menuSettings = new Settings(data);
+        Game game = new Game(data);
 
         data.initializeMainMenu(mainMenu);
         data.initializeSettingsMenu(menuSettings);
+        data.initializeGame(game);
 
         while (true) {
             PlayerInteractListener.onPlayerInteract(data);

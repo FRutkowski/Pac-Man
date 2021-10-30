@@ -1,6 +1,7 @@
 package model;
 
 import com.googlecode.lanterna.graphics.TextGraphics;
+import view.Game;
 import view.MainMenu;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
@@ -32,6 +33,7 @@ public class DataBase {
     private TextGraphics textGraphics = screen.newTextGraphics();
     private boolean isInMainMenu = true;
     private boolean isInSettings = false;
+    private boolean isInGame = false;
     private boolean isSoundOn = true;
     private String gameLevel = "MEDIUM";
     private String mapSize = "MEDIUM";
@@ -39,6 +41,8 @@ public class DataBase {
     private int currentSettingsMenuIndex = 0;
     private MainMenu menu;
     private Settings menuSettings;
+    private Game game;
+    private String playerName = "Player";
 
     public DataBase() throws IOException {
     }
@@ -92,6 +96,12 @@ public class DataBase {
         return isInSettings;
     }
 
+    public void setInGame(boolean inGame) throws IOException {
+        isInGame = inGame;
+        if (inGame) game.showCurrentName();
+        else game.clear();
+    }
+
     public int getCurrentSettingsMenuIndex() {
         return currentSettingsMenuIndex;
     }
@@ -122,6 +132,7 @@ public class DataBase {
             menuSettingsOptions[0] = "SOUND: ON";
         }
 
+        menuSettings.clear();
         menuSettings.initializeView();
         menuSettings.scrollGui(currentSettingsMenuIndex, null);
     }
@@ -133,6 +144,7 @@ public class DataBase {
     public void setGameLevel(String gameLevel) throws IOException {
         this.gameLevel = gameLevel;
         menuSettingsOptions[1] = "LEVEL: " + gameLevel;
+        menuSettings.clear();
         menuSettings.initializeView();
         menuSettings.scrollGui(currentSettingsMenuIndex, null);
 
@@ -145,9 +157,34 @@ public class DataBase {
     public void setMapSize(String mapSize) throws IOException {
         this.mapSize = mapSize;
         menuSettingsOptions[2] = "MAP-SIZE: " + mapSize;
+        menuSettings.clear();
+        screen.clear();
         menuSettings.initializeView();
         menuSettings.scrollGui(currentSettingsMenuIndex, null);
 
+    }
+
+    public void initializeGame(Game g) {
+        game = g;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public void setPlayerName(String playerName) throws IOException {
+        this.playerName = playerName;
+        game.clear();
+        game.showCurrentName();
+
+    }
+
+    public boolean isInGame() {
+        return isInGame;
     }
 }
 

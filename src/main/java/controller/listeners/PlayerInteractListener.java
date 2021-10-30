@@ -18,6 +18,11 @@ public class PlayerInteractListener {
             manageSettingsMenu(data);
         }
 
+        if (data.isInGame()) {
+            pollPlayerName(data);
+            startGame(data);
+        }
+
     }
 
 
@@ -40,7 +45,8 @@ public class PlayerInteractListener {
                         break;
                     case Enter:
                         if (data.getCurrentMainMenuIndex() == 0) {
-
+                            data.setInMainMenu(false);
+                            data.setInGame(true);
                         } else if (data.getCurrentMainMenuIndex() == 1) {
                             data.setInMainMenu(false);
                             data.setInSettings(true);
@@ -100,5 +106,36 @@ public class PlayerInteractListener {
         }
     }
 
+    public static void pollPlayerName(DataBase data) throws IOException {
+        StringBuilder builder = new StringBuilder("");
+        boolean hasDefaultName = true;
+        while (hasDefaultName) {
+            Terminal terminal = data.getTerminal();
+            KeyStroke keyStroke = terminal.pollInput();
+
+            if (keyStroke != null) {
+                switch (keyStroke.getKeyType()) {
+                    case Character:
+                        builder.append(keyStroke.getCharacter());
+                        data.setPlayerName(builder.toString());
+                        break;
+                    case Backspace:
+                        if (builder.length() > 0) builder.deleteCharAt(builder.length() - 1);
+                        data.setPlayerName(builder.toString());
+                        break;
+                    case Enter:
+                        hasDefaultName = false;
+                        break;
+                }
+            }
+        }
+    }
+
+
+    public static void startGame(DataBase data) {
+        while (data.isInGame()) {
+
+        }
+    }
 
 }
