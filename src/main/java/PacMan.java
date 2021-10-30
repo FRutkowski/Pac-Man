@@ -1,16 +1,8 @@
-import Controller.Listeners.PlayerInteractListener;
-import Model.DataBase;
-import View.Menu;
-import com.googlecode.lanterna.TerminalPosition;
-import com.googlecode.lanterna.TextCharacter;
-import com.googlecode.lanterna.TextColor;
-import com.googlecode.lanterna.graphics.TextGraphics;
-import com.googlecode.lanterna.graphics.Theme;
-import com.googlecode.lanterna.gui2.*;
-import com.googlecode.lanterna.screen.Screen;
-import com.googlecode.lanterna.screen.TerminalScreen;
-import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
-import com.googlecode.lanterna.terminal.Terminal;
+import controller.listeners.PlayerInteractListener;
+import model.DataBase;
+import view.MainMenu;
+import view.Menu;
+import view.Settings;
 
 import java.awt.*;
 import java.io.IOException;
@@ -22,10 +14,15 @@ public class PacMan {
         DataBase data = new DataBase();
         data.getScreen().startScreen();
         data.getScreen().setCursorPosition(null);
-        Menu menu = new Menu(data);
-        data.initializeMenu(menu);
+        MainMenu mainMenu = new MainMenu(data);
+        Settings menuSettings = new Settings(data);
 
-        PlayerInteractListener.onPlayerInteract(data);
+        data.initializeMainMenu(mainMenu);
+        data.initializeSettingsMenu(menuSettings);
+
+        for (;;) {
+            PlayerInteractListener.onPlayerInteract(data);
+        }
 
     }
 }
