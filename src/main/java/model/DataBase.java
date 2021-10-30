@@ -18,8 +18,8 @@ public class DataBase {
             "EXIT"
     };
 
-    private final String[] menuSettingsOptions = {
-            "SOUND: OFF",
+    private String[] menuSettingsOptions = {
+            "SOUND: ON",
             "LEVEL: MEDIUM",
             "MAP-SIZE: MEDIUM",
             "BACK"
@@ -113,24 +113,41 @@ public class DataBase {
         return isSoundOn;
     }
 
-    public void setSoundOn(boolean soundOn) {
-        isSoundOn = soundOn;
+    public void toggleSound() throws IOException {
+        if (isSoundOn) {
+            isSoundOn = false;
+            menuSettingsOptions[0] = "SOUND: OFF";
+        } else {
+            isSoundOn = true;
+            menuSettingsOptions[0] = "SOUND: ON";
+        }
+
+        menuSettings.initializeView();
+        menuSettings.scrollGui(currentSettingsMenuIndex, null);
     }
 
     public String getGameLevel() {
         return gameLevel;
     }
 
-    public void setGameLevel(String gameLevel) {
+    public void setGameLevel(String gameLevel) throws IOException {
         this.gameLevel = gameLevel;
+        menuSettingsOptions[1] = "LEVEL: " + gameLevel;
+        menuSettings.initializeView();
+        menuSettings.scrollGui(currentSettingsMenuIndex, null);
+
     }
 
     public String getMapSize() {
         return mapSize;
     }
 
-    public void setMapSize(String mapSize) {
+    public void setMapSize(String mapSize) throws IOException {
         this.mapSize = mapSize;
+        menuSettingsOptions[2] = "MAP-SIZE: " + mapSize;
+        menuSettings.initializeView();
+        menuSettings.scrollGui(currentSettingsMenuIndex, null);
+
     }
 }
 

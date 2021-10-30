@@ -22,13 +22,15 @@ public class MainMenu extends Menu {
 
     @Override
     public void initializeView() throws IOException {
+        screen.clear();
         int i = position.getRow();
         int y = 0;
         for (String menuOption : data.getMainMenuOptions()) {
-            rowForIndex.put(y++, i);
+            if (!initializedRowForIndex) rowForIndex.put(y++, i);
             textGraphics.putString(position.getColumn(), i++, menuOption);
         }
 
+        initializedRowForIndex = true;
         screen.refresh();
     }
 

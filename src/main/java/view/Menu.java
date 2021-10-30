@@ -18,6 +18,7 @@ public abstract class Menu {
     protected DataBase data;
     TerminalPosition position = new TerminalPosition(34,8);
     protected Map<Integer, Integer> rowForIndex = new HashMap<>();
+    protected boolean initializedRowForIndex = false;
     TextGraphics textGraphics;
 
     public Menu(DataBase data) throws IOException, FontFormatException {

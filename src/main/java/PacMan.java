@@ -20,7 +20,7 @@ public class PacMan {
         data.initializeMainMenu(mainMenu);
         data.initializeSettingsMenu(menuSettings);
 
-        for (;;) {
+        while (true) {
             PlayerInteractListener.onPlayerInteract(data);
         }
 

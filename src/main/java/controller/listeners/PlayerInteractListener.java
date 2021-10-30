@@ -1,5 +1,6 @@
 package controller.listeners;
 
+import controller.utils.OptionChanger;
 import model.DataBase;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.screen.Screen;
@@ -43,6 +44,7 @@ public class PlayerInteractListener {
                         } else if (data.getCurrentMainMenuIndex() == 1) {
                             data.setInMainMenu(false);
                             data.setInSettings(true);
+                            data.setCurrentSettingsMenuIndex(0, null);
                         }
                         break;
                 }
@@ -68,17 +70,35 @@ public class PlayerInteractListener {
                         if (data.getCurrentSettingsMenuIndex() != 3) data.setCurrentSettingsMenuIndex(data.getCurrentSettingsMenuIndex() + 1, data.getCurrentSettingsMenuIndex());
                         break;
                     case ArrowLeft:
+                        if (data.getCurrentSettingsMenuIndex() == 0) data.toggleSound();
+                        else if (data.getCurrentSettingsMenuIndex() == 1) {
+                            data.setGameLevel(OptionChanger.newGameLevel(false, data.getGameLevel()));
+                        } else if (data.getCurrentSettingsMenuIndex() == 2) {
+                            data.setMapSize(OptionChanger.newMapSize(false, data.getMapSize()));
+                        }
+
                         break;
                     case ArrowRight:
+                        if (data.getCurrentSettingsMenuIndex() == 0) data.toggleSound();
+                        else if (data.getCurrentSettingsMenuIndex() == 1) {
+                            data.setGameLevel(OptionChanger.newGameLevel(true, data.getGameLevel()));
+                        } else if (data.getCurrentSettingsMenuIndex() == 2) {
+                            data.setMapSize(OptionChanger.newMapSize(true, data.getMapSize()));
+                        }
+
                         break;
                     case Enter:
                         if (data.getCurrentSettingsMenuIndex() == 3) {
                             data.setInSettings(false);
                             data.setInMainMenu(true);
+                            data.setCurrentMainMenuIndex(0, null);
                         }
+
                         break;
                 }
             }
         }
     }
+
+
 }

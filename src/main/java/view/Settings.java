@@ -10,7 +10,6 @@ public class Settings extends Menu {
 
     public Settings(DataBase data) throws IOException, FontFormatException {
         super(data);
-
     }
 
     @Override
@@ -22,13 +21,15 @@ public class Settings extends Menu {
 
     @Override
     public void initializeView() throws IOException {
+        screen.clear();
         int i = position.getRow();
         int y = 0;
         for (String menuOption : data.getMenuSettingsOptions()) {
-            rowForIndex.put(y++, i);
+            if (!initializedRowForIndex) rowForIndex.put(y++, i);
             textGraphics.putString(position.getColumn(), i++, menuOption);
         }
 
+        initializedRowForIndex = true;
         screen.refresh();
     }
 
