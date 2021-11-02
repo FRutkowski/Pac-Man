@@ -11,16 +11,13 @@ import java.io.IOException;
 public class Game {
     private Terminal terminal;
     private Screen screen;
-    private DataBase data;
     private char[][] map;
     TextGraphics textGraphics;
 
-    public Game(DataBase data) {
-        this.data = data;
-        this.terminal = data.getTerminal();
-        this.screen = data.getScreen();
-        if (textGraphics == null) textGraphics = data.getTextGraphics();
-
+    public Game(Terminal terminal, Screen screen, TextGraphics textGraphics) {
+        this.terminal = terminal;
+        this.screen = screen;
+        if (this.textGraphics == null) this.textGraphics = textGraphics;
     }
 
 
@@ -29,9 +26,13 @@ public class Game {
         screen.refresh();
     }
 
-    public void showCurrentName() throws IOException {
-        textGraphics.putString(34, 8, "Name: " + data.getPlayerName());
+    public void showCurrentName(String playerName) throws IOException {
+        textGraphics.putString(34, 8, "Name: " + playerName);
         screen.refresh();
+    }
+
+    public void generateMap() {
+
     }
 
 }

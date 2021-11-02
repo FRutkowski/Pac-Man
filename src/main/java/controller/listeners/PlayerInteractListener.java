@@ -1,11 +1,13 @@
 package controller.listeners;
 
+import controller.utils.GameActivator;
 import controller.utils.OptionChanger;
 import model.DataBase;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.terminal.Terminal;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class PlayerInteractListener {
@@ -22,7 +24,6 @@ public class PlayerInteractListener {
             pollPlayerName(data);
             startGame(data);
         }
-
     }
 
 
@@ -121,6 +122,7 @@ public class PlayerInteractListener {
                         break;
                     case Backspace:
                         if (builder.length() > 0) builder.deleteCharAt(builder.length() - 1);
+                        data.getGame().clear();
                         data.setPlayerName(builder.toString());
                         break;
                     case Enter:
@@ -132,9 +134,37 @@ public class PlayerInteractListener {
     }
 
 
-    public static void startGame(DataBase data) {
-        while (data.isInGame()) {
+    public static void startGame(DataBase data) throws IOException {
+        char[][] map = GameActivator.initMap(data);
+        map[17][25] = 'P';
+        for (int i = 0; i < data.getMapRows(); i++) {
+            for (int k = 0; k < data.getMapColumns(); k++) {
+                System.out.print(map[i][k]);
+            }
 
+            System.out.println("");
+        }
+
+
+        while (data.isInGame()) {
+            Terminal terminal = data.getTerminal();
+            KeyStroke keyStroke = terminal.pollInput();
+            if (keyStroke != null) {
+                switch (keyStroke.getKeyType()) {
+                    case ArrowUp:
+
+                        break;
+                    case ArrowDown:
+
+                        break;
+                    case ArrowLeft:
+
+                        break;
+                    case ArrowRight:
+
+                        break;
+                }
+            }
         }
     }
 

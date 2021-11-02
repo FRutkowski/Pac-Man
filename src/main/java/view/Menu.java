@@ -15,27 +15,25 @@ import java.util.Map;
 public abstract class Menu {
     protected Screen screen;
     protected Terminal terminal;
-    protected DataBase data;
     TerminalPosition position = new TerminalPosition(34,8);
     protected Map<Integer, Integer> rowForIndex = new HashMap<>();
     protected boolean initializedRowForIndex = false;
-    TextGraphics textGraphics;
+    TextGraphics textGraphics = null;
 
-    public Menu(DataBase data) throws IOException, FontFormatException {
-        this.screen = data.getScreen();
-        this.terminal = data.getTerminal();
-        this.data = data;
-        if (textGraphics == null) textGraphics = data.getTextGraphics();
+    public Menu(Terminal terminal, Screen screen, TextGraphics textGraphics2) throws IOException, FontFormatException {
+        this.screen = screen;
+        this.terminal = terminal;
+        if (textGraphics == null) this.textGraphics = textGraphics2;
 
     }
 
-    public abstract void scrollGui(int currentMenuIndex, Integer earlierIndex) throws IOException;
+    public abstract void scrollGui(int currentMenuIndex, Integer earlierIndex, String[] mainMenuOptions) throws IOException;
 
     public void clear() throws IOException {
         screen.clear();
         screen.refresh();
     }
 
-    public abstract void initializeView() throws IOException;
+    public abstract void initializeView(String[] mainMenuOptions) throws IOException;
 
 }

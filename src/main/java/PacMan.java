@@ -1,3 +1,6 @@
+import com.googlecode.lanterna.graphics.TextGraphics;
+import com.googlecode.lanterna.screen.Screen;
+import com.googlecode.lanterna.terminal.Terminal;
 import controller.listeners.PlayerInteractListener;
 import model.DataBase;
 import view.Game;
@@ -13,11 +16,14 @@ public class PacMan {
 
 
         DataBase data = new DataBase();
-        data.getScreen().startScreen();
-        data.getScreen().setCursorPosition(null);
-        MainMenu mainMenu = new MainMenu(data);
-        Settings menuSettings = new Settings(data);
-        Game game = new Game(data);
+        Terminal terminal = data.getTerminal();
+        Screen screen = data.getScreen();
+        screen.startScreen();
+        screen.setCursorPosition(null);
+        TextGraphics textGraphics = data.getTextGraphics();
+        MainMenu mainMenu = new MainMenu(terminal, screen, textGraphics, data.getMainMenuOptions());
+        Settings menuSettings = new Settings(terminal, screen, textGraphics);
+        Game game = new Game(terminal, screen, textGraphics);
 
         data.initializeMainMenu(mainMenu);
         data.initializeSettingsMenu(menuSettings);
