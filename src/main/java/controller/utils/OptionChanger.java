@@ -1,5 +1,9 @@
 package controller.utils;
 
+import model.DataBase;
+
+import java.io.IOException;
+
 public class OptionChanger {
     public static String newGameLevel(boolean isArrowRight, String gameLevel) {
         if (isArrowRight) {
@@ -47,5 +51,11 @@ public class OptionChanger {
         }
 
         return mapSize;
+    }
+
+    public static void updateSettings(DataBase data) throws IOException {
+        data.getMenuSettings().clear();
+        data.getMenuSettings().initializeView(data.getMenuSettingsOptions());
+        data.getMenuSettings().scrollGui(data.getCurrentSettingsMenuIndex(), null, data.getMenuSettingsOptions());
     }
 }

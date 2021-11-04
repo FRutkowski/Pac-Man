@@ -31,8 +31,9 @@ public class Game {
         screen.refresh();
     }
 
-    public void generateMap() {
-
+    public void generateMap(char[][] map) {
+        screen.clear();
+//        textGraphics.putString();
     }
 
 }

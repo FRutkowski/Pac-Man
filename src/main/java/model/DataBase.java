@@ -45,21 +45,37 @@ public class DataBase {
     private Settings menuSettings;
     private Game game;
     private String playerName = "Player";
-    public static boolean firstClick = true;
+    public boolean firstClick = true;
 
-    public DataBase() throws IOException {
-        this.terminal = defaultTerminalFactory.createTerminal();
-        this.screen = new TerminalScreen(terminal);
-        this.textGraphics = screen.newTextGraphics();
+    public DataBase(Terminal terminal, Screen screen, TextGraphics textGraphic) throws IOException {
+        this.terminal = terminal;
+        this.screen = screen;
+        this.textGraphics = textGraphic;
 
     }
 
-    public void initializeMainMenu(MainMenu menu) {
+    public void setMainMenu(MainMenu menu) {
         this.menu = menu;
     }
 
-    public void initializeSettingsMenu(Settings menuSettings) {
+    public MainMenu getMainMenu() {
+        return menu;
+    }
+
+    public void setSettingsMenu(Settings menuSettings) {
         this.menuSettings = menuSettings;
+    }
+
+    public Settings getMenuSettings() {
+        return menuSettings;
+    }
+
+    public void setGame(Game g) {
+        game = g;
+    }
+
+    public Game getGame() {
+        return game;
     }
 
     public String[] getMainMenuOptions() {
@@ -72,8 +88,6 @@ public class DataBase {
 
     public void setInMainMenu(boolean inMainMenu) throws IOException {
         isInMainMenu = inMainMenu;
-        if (!inMainMenu) menu.clear();
-        else menu.initializeView(mainMenuOptions);
     }
 
     public Terminal getTerminal() {
@@ -90,13 +104,10 @@ public class DataBase {
 
     public void setCurrentMainMenuIndex(int i, Integer earlierIndex) throws IOException {
         currentMainMenuIndex = i;
-        menu.scrollGui(currentMainMenuIndex, earlierIndex, mainMenuOptions);
     }
 
     public void setInSettings(boolean inSettings) throws IOException {
         isInSettings = inSettings;
-        if (!inSettings) menuSettings.clear();
-        else menuSettings.initializeView(menuSettingsOptions);
     }
 
     public boolean isInSettings() {
@@ -105,8 +116,6 @@ public class DataBase {
 
     public void setInGame(boolean inGame) throws IOException {
         isInGame = inGame;
-        if (inGame) game.showCurrentName(playerName);
-        else game.clear();
     }
 
     public int getCurrentSettingsMenuIndex() {
@@ -115,7 +124,6 @@ public class DataBase {
 
     public void setCurrentSettingsMenuIndex(int currentSettingsMenuIndex, Integer earlierIndex) throws IOException {
         this.currentSettingsMenuIndex = currentSettingsMenuIndex;
-        menuSettings.scrollGui(currentSettingsMenuIndex, earlierIndex, menuSettingsOptions);
     }
 
     public String[] getMenuSettingsOptions() {
@@ -139,9 +147,6 @@ public class DataBase {
             menuSettingsOptions[0] = "SOUND: ON";
         }
 
-        menuSettings.clear();
-        menuSettings.initializeView(menuSettingsOptions);
-        menuSettings.scrollGui(currentSettingsMenuIndex, null, menuSettingsOptions);
     }
 
     public String getGameLevel() {
@@ -151,9 +156,6 @@ public class DataBase {
     public void setGameLevel(String gameLevel) throws IOException {
         this.gameLevel = gameLevel;
         menuSettingsOptions[1] = "LEVEL: " + gameLevel;
-        menuSettings.clear();
-        menuSettings.initializeView(menuSettingsOptions);
-        menuSettings.scrollGui(currentSettingsMenuIndex, null, menuSettingsOptions);
 
     }
 
@@ -164,18 +166,6 @@ public class DataBase {
     public void setMapSize(String mapSize) throws IOException {
         this.mapSize = mapSize;
         menuSettingsOptions[2] = "MAP-SIZE: " + mapSize;
-        menuSettings.clear();
-        screen.clear();
-        menuSettings.initializeView(menuSettingsOptions);
-        menuSettings.scrollGui(currentSettingsMenuIndex, null, menuSettingsOptions);
-    }
-
-    public void initializeGame(Game g) {
-        game = g;
-    }
-
-    public Game getGame() {
-        return game;
     }
 
     public String getPlayerName() {
@@ -184,13 +174,14 @@ public class DataBase {
 
     public void setPlayerName(String playerName) throws IOException {
         this.playerName = playerName;
-        if (firstClick) {
-            game.clear();
-            firstClick = false;
-        }
+    }
 
-        game.showCurrentName(playerName);
+    public void setFirstClick(boolean firstClick) {
+        this.firstClick = firstClick;
+    }
 
+    public boolean isFirstClick() {
+        return firstClick;
     }
 
     public boolean isInGame() {
