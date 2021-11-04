@@ -59,7 +59,13 @@ public class Game {
         screen.refresh();
     }
 
-    public void refreshMap(int row, int col, char[][] map) {
+    public void refreshMap(int oldRow, int oldCol, int newRow, int newCol, char[][] map) throws IOException {
+        if (map[newRow][newCol] == 'C' || map[newRow][newCol] == 'O') {
+            textGraphics.putString(position.getColumn() + oldCol, position.getRow() + oldRow, " ");
+            textGraphics.setForegroundColor(TextColor.ANSI.YELLOW_BRIGHT);
+            textGraphics.putString(position.getColumn() + newCol, position.getRow() + newRow, String.valueOf(map[newRow][newCol]), SGR.BOLD);
+        }
 
+        screen.refresh();
     }
 }

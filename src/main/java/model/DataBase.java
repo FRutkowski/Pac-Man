@@ -48,6 +48,7 @@ public class DataBase {
     public boolean firstClick = true;
     private PacManCurrentPosition pacManCurrentPosition;
     private char[][] map;
+    private int currentPoints;
 
     public DataBase(Terminal terminal, Screen screen, TextGraphics textGraphic) throws IOException {
         this.terminal = terminal;
@@ -220,6 +221,17 @@ public class DataBase {
 
     public void setMap(char[][] map) {
         this.map = map;
+    }
+
+    public int getCurrentPoints() {
+        return currentPoints;
+    }
+
+    public void setCurrentPoints(int currentPoints) {
+        this.currentPoints = currentPoints;
+    }
+    public void addPoints(int points) {
+        this.currentPoints += points;
     }
 }
 

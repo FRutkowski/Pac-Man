@@ -22,12 +22,6 @@ public class GameActivator {
             j++;
         }
 
-        for (int i = 0; i < data.getMapRows(); i++) {
-            for (int k = 0; k < data.getMapColumns(); k++) {
-                System.out.print(map[i][k]);
-            }
-        }
-
         return map;
     }
 }
