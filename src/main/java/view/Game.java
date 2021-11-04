@@ -1,10 +1,13 @@
 package view;
 
+import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.TerminalPosition;
+import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.terminal.Terminal;
 import model.DataBase;
+import model.PacManCurrentPosition;
 
 import java.io.IOException;
 
@@ -12,7 +15,8 @@ public class Game {
     private Terminal terminal;
     private Screen screen;
     private char[][] map;
-    TextGraphics textGraphics;
+    private TextGraphics textGraphics;
+    private TerminalPosition position = new TerminalPosition(15, 1);
 
     public Game(Terminal terminal, Screen screen, TextGraphics textGraphics) {
         this.terminal = terminal;
@@ -31,9 +35,31 @@ public class Game {
         screen.refresh();
     }
 
-    public void generateMap(char[][] map) {
+    public void generateMap(char[][] map) throws IOException {
         screen.clear();
-//        textGraphics.putString();
+        for (int y = 0; y < 23; y++) {
+            for (int x = 0; x < 51; x++) {
+                if (map[y][x] != '*') {
+                    if (map[y][x] == '▅' || map[y][x] == '▉') {
+
+                        textGraphics.setForegroundColor(TextColor.ANSI.BLUE);
+                        textGraphics.putString(position.getColumn() + x, position.getRow() + y, String.valueOf(map[y][x]), SGR.FRAKTUR);
+                    } else if (map[y][x] == 'C') {
+                        textGraphics.setForegroundColor(TextColor.ANSI.YELLOW_BRIGHT);
+                        textGraphics.putString(position.getColumn() + x, position.getRow() + y, String.valueOf(map[y][x]), SGR.BOLD);
+                    }
+                    else {
+                        textGraphics.setForegroundColor(TextColor.ANSI.WHITE);
+                        textGraphics.putString(position.getColumn() + x, position.getRow() + y, String.valueOf(map[y][x]));
+                    }
+                }
+            }
+        }
+
+        screen.refresh();
     }
 
+    public void refreshMap(int row, int col, char[][] map) {
+
+    }
 }

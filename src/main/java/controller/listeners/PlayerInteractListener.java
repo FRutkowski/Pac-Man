@@ -1,16 +1,18 @@
 package controller.listeners;
 
 import controller.utils.GameActivator;
+import controller.utils.GameMechanicsUtils;
 import controller.utils.OptionChanger;
 import model.DataBase;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.terminal.Terminal;
+import model.PacManCurrentPosition;
 
 import java.io.IOException;
 
 public class PlayerInteractListener {
-    public static void onPlayerInteract(DataBase data) throws IOException {
+    public static void onPlayerInteract(DataBase data) throws IOException, InterruptedException {
         if (data.isInMainMenu()) {
             manageMainMenu(data);
         }
@@ -93,29 +95,26 @@ public class PlayerInteractListener {
                     case ArrowLeft:
                         if (data.getCurrentSettingsMenuIndex() == 0) {
                             data.toggleSound();
-                            OptionChanger.updateSettings(data);
                         }
                         else if (data.getCurrentSettingsMenuIndex() == 1) {
                             data.setGameLevel(OptionChanger.newGameLevel(false, data.getGameLevel()));
-                            OptionChanger.updateSettings(data);
                         } else if (data.getCurrentSettingsMenuIndex() == 2) {
                             data.setMapSize(OptionChanger.newMapSize(false, data.getMapSize()));
-                            OptionChanger.updateSettings(data);
                         }
+
+                        OptionChanger.updateSettings(data);
                         break;
                     case ArrowRight:
                         if (data.getCurrentSettingsMenuIndex() == 0) {
                             data.toggleSound();
-                            OptionChanger.updateSettings(data);
                         }
                         else if (data.getCurrentSettingsMenuIndex() == 1) {
                             data.setGameLevel(OptionChanger.newGameLevel(true, data.getGameLevel()));
-                            OptionChanger.updateSettings(data);
                         } else if (data.getCurrentSettingsMenuIndex() == 2) {
                             data.setMapSize(OptionChanger.newMapSize(true, data.getMapSize()));
-                            OptionChanger.updateSettings(data);
                         }
 
+                        OptionChanger.updateSettings(data);
                         break;
                     case Enter:
                         if (data.getCurrentSettingsMenuIndex() == 3) {
@@ -167,25 +166,29 @@ public class PlayerInteractListener {
     }
 
 
-    public static void startGame(DataBase data) throws IOException {
+    public static void startGame(DataBase data) throws IOException, InterruptedException {
         char[][] map = GameActivator.initMap(data);
-        map[17][25] = 'P';
-        for (int i = 0; i < data.getMapRows(); i++) {
-            for (int k = 0; k < data.getMapColumns(); k++) {
-                System.out.print(map[i][k]);
-            }
-
-            System.out.println("");
-        }
-
-
+        map[17][25] = 'C';
+        PacManCurrentPosition pacManCurrentPosition = new PacManCurrentPosition(17, 25);
+        data.setPacManCurrentPosition(pacManCurrentPosition);
+        data.setMap(map);
+        data.getGame().generateMap(map);
         while (data.isInGame()) {
             Terminal terminal = data.getTerminal();
             KeyStroke keyStroke = terminal.pollInput();
             if (keyStroke != null) {
                 switch (keyStroke.getKeyType()) {
                     case ArrowUp:
-
+                        if (GameMechanicsUtils.canGoTo(pacManCurrentPosition.getRow() - 1, pacManCurrentPosition.getColumn(), map)) {
+                            if (map[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn()] == 'C') {
+                                map[pacManCurrentPosition.getRow() - 1][pacManCurrentPosition.getColumn()] = 'O';
+                            } else {
+                                map[pacManCurrentPosition.getRow() - 1][pacManCurrentPosition.getColumn()] = 'C';
+                            }
+                            map[pacManCurrentPosition.getRow() - 1][pacManCurrentPosition.getColumn()] = ' ';
+                            data.setMap(map);
+                            Thread.sleep(200);
+                        }
                         break;
                     case ArrowDown:
 

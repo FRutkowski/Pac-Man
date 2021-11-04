@@ -46,6 +46,8 @@ public class DataBase {
     private Game game;
     private String playerName = "Player";
     public boolean firstClick = true;
+    private PacManCurrentPosition pacManCurrentPosition;
+    private char[][] map;
 
     public DataBase(Terminal terminal, Screen screen, TextGraphics textGraphic) throws IOException {
         this.terminal = terminal;
@@ -202,6 +204,22 @@ public class DataBase {
 
     public void setMapRows(int mapRows) {
         this.mapRows = mapRows;
+    }
+
+    public PacManCurrentPosition getPacManCurrentPosition() {
+        return pacManCurrentPosition;
+    }
+
+    public void setPacManCurrentPosition(PacManCurrentPosition pacManCurrentPosition) {
+        this.pacManCurrentPosition = pacManCurrentPosition;
+    }
+
+    public char[][] getMap() {
+        return map;
+    }
+
+    public void setMap(char[][] map) {
+        this.map = map;
     }
 }
 
