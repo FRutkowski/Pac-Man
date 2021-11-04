@@ -35,17 +35,17 @@ public class PlayerInteractListener {
                 switch (keyStroke.getKeyType()) {
                     case ArrowUp:
                         if (data.getCurrentMainMenuIndex() == 0) {
-                            data.setCurrentMainMenuIndex(0, null);
                             data.getMainMenu().scrollGui(data.getCurrentMainMenuIndex(), null, data.getMainMenuOptions());
+                            data.setCurrentMainMenuIndex(0, null);
                         } else {
-                            data.setCurrentMainMenuIndex(data.getCurrentMainMenuIndex() - 1, data.getCurrentMainMenuIndex());
                             data.getMainMenu().scrollGui(data.getCurrentMainMenuIndex() - 1, data.getCurrentMainMenuIndex(), data.getMainMenuOptions());
+                            data.setCurrentMainMenuIndex(data.getCurrentMainMenuIndex() - 1, data.getCurrentMainMenuIndex());
                         }
                         break;
                     case ArrowDown:
                         if (data.getCurrentMainMenuIndex() != 3) {
-                            data.setCurrentMainMenuIndex(data.getCurrentMainMenuIndex() + 1, data.getCurrentMainMenuIndex());
                             data.getMainMenu().scrollGui(data.getCurrentMainMenuIndex() + 1, data.getCurrentMainMenuIndex(), data.getMainMenuOptions());
+                            data.setCurrentMainMenuIndex(data.getCurrentMainMenuIndex() + 1, data.getCurrentMainMenuIndex());
                         }
                         break;
                     case Enter:
@@ -77,17 +77,17 @@ public class PlayerInteractListener {
                 switch (keyStroke.getKeyType()) {
                     case ArrowUp:
                         if (data.getCurrentSettingsMenuIndex() == 0) {
-                            data.setCurrentSettingsMenuIndex(0, null);
                             data.getMenuSettings().scrollGui(data.getCurrentSettingsMenuIndex(), null, data.getMenuSettingsOptions());
+                            data.setCurrentSettingsMenuIndex(0, null);
                         } else {
-                            data.setCurrentSettingsMenuIndex(data.getCurrentSettingsMenuIndex() - 1, data.getCurrentSettingsMenuIndex());
                             data.getMenuSettings().scrollGui(data.getCurrentSettingsMenuIndex() - 1, data.getCurrentSettingsMenuIndex(), data.getMenuSettingsOptions());
+                            data.setCurrentSettingsMenuIndex(data.getCurrentSettingsMenuIndex() - 1, data.getCurrentSettingsMenuIndex());
                         }
                         break;
                     case ArrowDown:
                         if (data.getCurrentSettingsMenuIndex() != 3) {
-                            data.setCurrentSettingsMenuIndex(data.getCurrentSettingsMenuIndex() + 1, data.getCurrentSettingsMenuIndex());
                             data.getMenuSettings().scrollGui(data.getCurrentSettingsMenuIndex() + 1, data.getCurrentSettingsMenuIndex(), data.getMenuSettingsOptions());
+                            data.setCurrentSettingsMenuIndex(data.getCurrentSettingsMenuIndex() + 1, data.getCurrentSettingsMenuIndex());
                         }
                         break;
                     case ArrowLeft:
