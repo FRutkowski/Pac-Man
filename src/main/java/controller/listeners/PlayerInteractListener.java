@@ -182,10 +182,11 @@ public class PlayerInteractListener {
                     case ArrowUp:
                         if (GameMechanicsUtils.canGoTo(pacManCurrentPosition.getRow() - 1, pacManCurrentPosition.getColumn(), map)) {
                             data.addPoints(GameMechanicsUtils.calculatePoints(pacManCurrentPosition.getRow() - 1, pacManCurrentPosition.getColumn(), map));
-                            if (map[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn()] == 'C') {
+                            if (map[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn()] != 'O') {
                                 map[pacManCurrentPosition.getRow() - 1][pacManCurrentPosition.getColumn()] = 'O';
                             } else {
-                                map[pacManCurrentPosition.getRow() - 1][pacManCurrentPosition.getColumn()] = 'C';
+                                if (DataBase.isLeftDirection()) map[pacManCurrentPosition.getRow() - 1][pacManCurrentPosition.getColumn()] = '☽';
+                                else map[pacManCurrentPosition.getRow() - 1][pacManCurrentPosition.getColumn()] = '☾';
                             }
 
                             map[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn()] = ' ';
@@ -198,10 +199,11 @@ public class PlayerInteractListener {
                     case ArrowDown:
                         if (GameMechanicsUtils.canGoTo(pacManCurrentPosition.getRow() + 1, pacManCurrentPosition.getColumn(), map)) {
                             data.addPoints(GameMechanicsUtils.calculatePoints(pacManCurrentPosition.getRow() + 1, pacManCurrentPosition.getColumn(), map));
-                            if (map[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn()] == 'C') {
+                            if (map[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn()] != 'O') {
                                 map[pacManCurrentPosition.getRow() + 1][pacManCurrentPosition.getColumn()] = 'O';
                             } else {
-                                map[pacManCurrentPosition.getRow() + 1][pacManCurrentPosition.getColumn()] = 'C';
+                                if (DataBase.isLeftDirection()) map[pacManCurrentPosition.getRow() + 1][pacManCurrentPosition.getColumn()] = '☽';
+                                else map[pacManCurrentPosition.getRow() + 1][pacManCurrentPosition.getColumn()] = '☾';
                             }
 
                             map[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn()] = ' ';
@@ -213,12 +215,14 @@ public class PlayerInteractListener {
 
                         break;
                     case ArrowLeft:
+                        DataBase.setIsLeftDirection(true);
                         if (GameMechanicsUtils.canGoTo(pacManCurrentPosition.getRow(), pacManCurrentPosition.getColumn() - 2, map)) {
                             data.addPoints(GameMechanicsUtils.calculatePoints(pacManCurrentPosition.getRow(), pacManCurrentPosition.getColumn(), map));
-                            if (map[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn()] == 'C') {
+                            if (map[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn()] != 'O') {
                                 map[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn() - 2] = 'O';
                             } else {
-                                map[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn() - 2] = 'C';
+
+                                map[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn() - 2] = '☽';
                             }
 
                             map[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn()] = ' ';
@@ -230,12 +234,13 @@ public class PlayerInteractListener {
 
                         break;
                     case ArrowRight:
+                        DataBase.setIsLeftDirection(false);
                         if (GameMechanicsUtils.canGoTo(pacManCurrentPosition.getRow(), pacManCurrentPosition.getColumn() + 2, map)) {
                             data.addPoints(GameMechanicsUtils.calculatePoints(pacManCurrentPosition.getRow(), pacManCurrentPosition.getColumn(), map));
-                            if (map[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn()] == 'C') {
+                            if (map[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn()] != 'O') {
                                 map[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn() + 2] = 'O';
                             } else {
-                                map[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn() + 2] = 'C';
+                                map[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn() + 2] = '☾';
                             }
 
                             map[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn()] = ' ';

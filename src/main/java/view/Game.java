@@ -60,7 +60,7 @@ public class Game {
     }
 
     public void refreshMap(int oldRow, int oldCol, int newRow, int newCol, char[][] map) throws IOException {
-        if (map[newRow][newCol] == 'C' || map[newRow][newCol] == 'O') {
+        if (map[newRow][newCol] == '☾' || map[newRow][newCol] == 'O' || map[newRow][newCol] == '☽' || map[newRow][newCol] == '◠') {
             textGraphics.putString(position.getColumn() + oldCol, position.getRow() + oldRow, " ");
             textGraphics.setForegroundColor(TextColor.ANSI.YELLOW_BRIGHT);
             textGraphics.putString(position.getColumn() + newCol, position.getRow() + newRow, String.valueOf(map[newRow][newCol]), SGR.BOLD);

@@ -49,6 +49,7 @@ public class DataBase {
     private PacManCurrentPosition pacManCurrentPosition;
     private char[][] map;
     private int currentPoints;
+    public static boolean isLeftDirection = true;
 
     public DataBase(Terminal terminal, Screen screen, TextGraphics textGraphic) throws IOException {
         this.terminal = terminal;
@@ -232,6 +233,14 @@ public class DataBase {
     }
     public void addPoints(int points) {
         this.currentPoints += points;
+    }
+
+    public static void setIsLeftDirection(boolean isLeft) {
+        isLeftDirection = isLeft;
+    }
+
+    public static boolean isLeftDirection() {
+        return isLeftDirection;
     }
 }
 
