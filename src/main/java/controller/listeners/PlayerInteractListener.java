@@ -174,6 +174,7 @@ public class PlayerInteractListener {
         data.setPacManCurrentPosition(pacManCurrentPosition);
         data.setMap(map);
         data.getGame().generateMap(map);
+        //TODO add threads and ghosts
         while (data.isInGame()) {
             Terminal terminal = data.getTerminal();
             KeyStroke keyStroke = terminal.pollInput();
