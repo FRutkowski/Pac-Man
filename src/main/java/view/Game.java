@@ -63,6 +63,7 @@ public class Game {
 
     public void updateGhost(int oldRow, int oldCol, int newRow, int newCol, char[][] map, TextColor.ANSI color, char currentField) throws IOException {
         textGraphics.setForegroundColor(TextColor.ANSI.WHITE);
+//        if (currentField == '━') textGraphics.setForegroundColor(TextColor.ANSI.WHITE);
         textGraphics.putString(position.getColumn() + oldCol, position.getRow() + oldRow, String.valueOf(currentField));
         textGraphics.setForegroundColor(color);
         textGraphics.putString(position.getColumn() + newCol, position.getRow() + newRow, String.valueOf(map[newRow][newCol]), SGR.BOLD);

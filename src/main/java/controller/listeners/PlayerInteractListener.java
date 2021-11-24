@@ -178,6 +178,8 @@ public class PlayerInteractListener {
 
         map[17][42] = 'C';
         map[11][28] = 'G';
+        map[11][26] = 'G';
+        map[11][22] = 'G';
         PacManCurrentPosition pacManCurrentPosition = new PacManCurrentPosition(17, 42);
         data.setPacManCurrentPosition(pacManCurrentPosition);
         data.setMap(map);
@@ -187,7 +189,15 @@ public class PlayerInteractListener {
         Ghost ghost1 = new Ghost(TextColor.ANSI.GREEN, 11, 28);
         data.addGhost(ghost1);
         data.addAmountOfGhosts(ghost1.getRowPosition(), ghost1.getColPosition(), 1);
+        Ghost ghost2 = new Ghost(TextColor.ANSI.GREEN, 11, 26);
+        data.addGhost(ghost2);
+        data.addAmountOfGhosts(ghost2.getRowPosition(), ghost2.getColPosition(), 1);
+        Ghost ghost3 = new Ghost(TextColor.ANSI.GREEN, 11, 22);
+        data.addGhost(ghost3);
+        data.addAmountOfGhosts(ghost3.getRowPosition(), ghost3.getColPosition(), 1);
         map[ghost1.getRowPosition()][ghost1.getColPosition()] = 'G';
+        map[ghost2.getRowPosition()][ghost2.getColPosition()] = 'G';
+        map[ghost3.getRowPosition()][ghost3.getColPosition()] = 'G';
 //        Ghost ghost2 = new Ghost(TextColor.ANSI.RED, 11, 26);
 //        data.addGhost(ghost2);
 //        Ghost ghost3 = new Ghost(TextColor.ANSI.GREEN, 11, 22);
@@ -283,7 +293,7 @@ public class PlayerInteractListener {
                 if (isArrowPressed) {
                     List<Ghost> ghosts = data.getGhosts();
                     for (Ghost ghost : ghosts) {
-                        Path path = GameMechanicsUtils.choosePath(data.getMap(), ghost.getRowPosition(), ghost.getColPosition());
+                        Path path = GameMechanicsUtils.choosePath(data.getMapElements(), ghost.getRowPosition(), ghost.getColPosition(), ghost.getLatestPath());
                         System.out.println("wybrana droga to " + path);
                         switch (path) {
                             case TOP:
@@ -356,7 +366,6 @@ public class PlayerInteractListener {
                                     data.addAmountOfGhosts(ghost.getRowPosition(), ghost1.getColPosition(), -1);
                                     data.addAmountOfGhosts(ghost.getRowPosition(), ghost1.getColPosition() + 2, 1);
 
-
                                     System.out.println(data.getMapElements()[ghost.getRowPosition()][ghost.getColPosition()]);
                                     System.out.println(data.getAmountOfGhosts()[ghost.getRowPosition()][ghost.getColPosition()]);
                                     if (data.getAmountOfGhosts()[ghost.getRowPosition()][ghost.getColPosition()] <= 1) {
@@ -373,6 +382,8 @@ public class PlayerInteractListener {
 
                                 break;
                         }
+
+                        ghost.setLatestPath(path);
                     }
                 }
             }

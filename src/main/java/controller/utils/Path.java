@@ -4,5 +4,7 @@ public enum Path {
     RIGHT,
     TOP,
     BOTTOM,
-    NOWHERE
+    NOWHERE,
+    VERTICAL,
+    HORIZONTAL
 }
