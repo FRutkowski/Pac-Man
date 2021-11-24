@@ -189,15 +189,18 @@ public class PlayerInteractListener {
         Ghost ghost1 = new Ghost(TextColor.ANSI.GREEN, 11, 28);
         data.addGhost(ghost1);
         data.addAmountOfGhosts(ghost1.getRowPosition(), ghost1.getColPosition(), 1);
-        Ghost ghost2 = new Ghost(TextColor.ANSI.GREEN, 11, 26);
+        Ghost ghost2 = new Ghost(TextColor.ANSI.RED, 11, 26);
         data.addGhost(ghost2);
         data.addAmountOfGhosts(ghost2.getRowPosition(), ghost2.getColPosition(), 1);
-        Ghost ghost3 = new Ghost(TextColor.ANSI.GREEN, 11, 22);
+        Ghost ghost3 = new Ghost(TextColor.ANSI.MAGENTA_BRIGHT, 11, 22);
         data.addGhost(ghost3);
         data.addAmountOfGhosts(ghost3.getRowPosition(), ghost3.getColPosition(), 1);
         map[ghost1.getRowPosition()][ghost1.getColPosition()] = 'G';
         map[ghost2.getRowPosition()][ghost2.getColPosition()] = 'G';
         map[ghost3.getRowPosition()][ghost3.getColPosition()] = 'G';
+        data.getGame().initializeGhost(ghost1.getRowPosition(), ghost1.getColPosition(), ghost1.getGhostColor(), map);
+        data.getGame().initializeGhost(ghost2.getRowPosition(), ghost2.getColPosition(), ghost2.getGhostColor(), map);
+        data.getGame().initializeGhost(ghost3.getRowPosition(), ghost3.getColPosition(), ghost3.getGhostColor(), map);
 //        Ghost ghost2 = new Ghost(TextColor.ANSI.RED, 11, 26);
 //        data.addGhost(ghost2);
 //        Ghost ghost3 = new Ghost(TextColor.ANSI.GREEN, 11, 22);
@@ -305,12 +308,9 @@ public class PlayerInteractListener {
 
                                 System.out.println(data.getMapElements()[ghost.getRowPosition()][ghost.getColPosition()]);
                                 System.out.println(data.getAmountOfGhosts()[ghost.getRowPosition()][ghost.getColPosition()]);
-                                if (data.getAmountOfGhosts()[ghost.getRowPosition()][ghost.getColPosition()] <= 1) {
                                     data.getGame().updateGhost(ghost.getRowPosition(), ghost.getColPosition(), ghost.getRowPosition() - 1,
                                             ghost.getColPosition(), data.getMap(), ghost.getGhostColor(),
                                             data.getMapElements()[ghost.getRowPosition()][ghost.getColPosition()]);
-                                } else data.getGame().updateGhost(ghost.getRowPosition(), ghost.getColPosition(), ghost.getRowPosition() - 1,
-                                        ghost.getColPosition(), data.getMap(), ghost.getGhostColor(), 'G');
 
                                 ghost.setRowPosition(ghost.getRowPosition() - 1);
                                 break;
@@ -323,13 +323,10 @@ public class PlayerInteractListener {
 
                                 System.out.println(data.getMapElements()[ghost.getRowPosition()][ghost.getColPosition()]);
                                 System.out.println(data.getAmountOfGhosts()[ghost.getRowPosition()][ghost.getColPosition()]);
-                                if (data.getAmountOfGhosts()[ghost.getRowPosition()][ghost.getColPosition()] <= 1) {
                                     System.out.println("tuwchodzimy");
                                     data.getGame().updateGhost(ghost.getRowPosition(), ghost.getColPosition(), ghost.getRowPosition() + 1,
                                             ghost.getColPosition(), data.getMap(), ghost.getGhostColor(),
                                             data.getMapElements()[ghost.getRowPosition()][ghost.getColPosition()]);
-                                } else data.getGame().updateGhost(ghost.getRowPosition(), ghost.getColPosition(), ghost.getRowPosition() + 1,
-                                        ghost.getColPosition(), data.getMap(), ghost.getGhostColor(), 'G');
 
 
                                 ghost.setRowPosition(ghost.getRowPosition() + 1);
@@ -345,13 +342,10 @@ public class PlayerInteractListener {
 
                                     System.out.println(data.getAmountOfGhosts()[ghost.getRowPosition()][ghost.getColPosition()]);
                                     System.out.println(data.getMapElements()[ghost.getRowPosition()][ghost.getColPosition()]);
-                                    if (data.getAmountOfGhosts()[ghost.getRowPosition()][ghost.getColPosition()] <= 1) {
                                         System.out.println("tuwchodzimy");
                                         data.getGame().updateGhost(ghost.getRowPosition(), ghost.getColPosition(), ghost.getRowPosition(),
                                                 ghost.getColPosition() - 2, data.getMap(), ghost.getGhostColor(),
                                                 data.getMapElements()[ghost.getRowPosition()][ghost.getColPosition()]);
-                                    } else data.getGame().updateGhost(ghost.getRowPosition(), ghost.getColPosition(), ghost.getRowPosition(),
-                                            ghost.getColPosition() - 2, data.getMap(), ghost.getGhostColor(), 'G');
 
 
                                     ghost.setColPosition(ghost.getColPosition() - 2);
@@ -366,15 +360,9 @@ public class PlayerInteractListener {
                                     data.addAmountOfGhosts(ghost.getRowPosition(), ghost1.getColPosition(), -1);
                                     data.addAmountOfGhosts(ghost.getRowPosition(), ghost1.getColPosition() + 2, 1);
 
-                                    System.out.println(data.getMapElements()[ghost.getRowPosition()][ghost.getColPosition()]);
-                                    System.out.println(data.getAmountOfGhosts()[ghost.getRowPosition()][ghost.getColPosition()]);
-                                    if (data.getAmountOfGhosts()[ghost.getRowPosition()][ghost.getColPosition()] <= 1) {
-                                        System.out.println("tuwchodzimy");
                                         data.getGame().updateGhost(ghost.getRowPosition(), ghost.getColPosition(), ghost.getRowPosition(),
                                                 ghost.getColPosition() + 2, data.getMap(), ghost.getGhostColor(),
                                                 data.getMapElements()[ghost.getRowPosition()][ghost.getColPosition()]);
-                                    } else data.getGame().updateGhost(ghost.getRowPosition(), ghost.getColPosition(), ghost.getRowPosition(),
-                                            ghost.getColPosition() + 2, data.getMap(), ghost.getGhostColor(), 'G');
 
 
                                     ghost.setColPosition(ghost.getColPosition() + 2);

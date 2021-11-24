@@ -79,4 +79,10 @@ public class Game {
 
         screen.refresh();
     }
+
+    public void initializeGhost(int row, int col, TextColor.ANSI color, char[][] map) throws IOException {
+        textGraphics.setForegroundColor(color);
+        textGraphics.putString(position.getColumn() + col, position.getRow() + row, String.valueOf(map[row][col]), SGR.BOLD);
+        screen.refresh();
+    }
 }
