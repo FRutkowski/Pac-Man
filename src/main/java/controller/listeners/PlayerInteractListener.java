@@ -303,8 +303,8 @@ public class PlayerInteractListener {
                                 System.out.println("moge isc do gory");
                                 map[ghost.getRowPosition() - 1][ghost.getColPosition()] = 'G';
                                 map[ghost.getRowPosition()][ghost.getColPosition()] = mapElements[ghost.getRowPosition()][ghost.getColPosition()];
-                                data.addAmountOfGhosts(ghost.getRowPosition(), ghost1.getColPosition(), -1);
-                                data.addAmountOfGhosts(ghost.getRowPosition() - 1, ghost1.getColPosition(), 1);
+                                data.addAmountOfGhosts(ghost.getRowPosition(), ghost.getColPosition(), -1);
+                                data.addAmountOfGhosts(ghost.getRowPosition() - 1, ghost.getColPosition(), 1);
 
                                 System.out.println(data.getMapElements()[ghost.getRowPosition()][ghost.getColPosition()]);
                                 System.out.println(data.getAmountOfGhosts()[ghost.getRowPosition()][ghost.getColPosition()]);
@@ -318,8 +318,8 @@ public class PlayerInteractListener {
                                 System.out.println("moge isc do dolu");
                                 map[ghost.getRowPosition() + 1][ghost.getColPosition()] = 'G';
                                 map[ghost.getRowPosition()][ghost.getColPosition()] = mapElements[ghost.getRowPosition()][ghost.getColPosition()];
-                                data.addAmountOfGhosts(ghost.getRowPosition(), ghost1.getColPosition(), -1);
-                                data.addAmountOfGhosts(ghost.getRowPosition() + 1, ghost1.getColPosition(), 1);
+                                data.addAmountOfGhosts(ghost.getRowPosition(), ghost.getColPosition(), -1);
+                                data.addAmountOfGhosts(ghost.getRowPosition() + 1, ghost.getColPosition(), 1);
 
                                 System.out.println(data.getMapElements()[ghost.getRowPosition()][ghost.getColPosition()]);
                                 System.out.println(data.getAmountOfGhosts()[ghost.getRowPosition()][ghost.getColPosition()]);
@@ -337,8 +337,8 @@ public class PlayerInteractListener {
                                 if(ghost.getColPosition() >= 2) {
                                     map[ghost.getRowPosition()][ghost.getColPosition() - 2] = 'G';
                                     map[ghost.getRowPosition()][ghost.getColPosition()] = mapElements[ghost.getRowPosition()][ghost.getColPosition()];
-                                    data.addAmountOfGhosts(ghost.getRowPosition(), ghost1.getColPosition(), -1);
-                                    data.addAmountOfGhosts(ghost.getRowPosition(), ghost1.getColPosition() - 2, 1);
+                                    data.addAmountOfGhosts(ghost.getRowPosition(), ghost.getColPosition(), -1);
+                                    data.addAmountOfGhosts(ghost.getRowPosition(), ghost.getColPosition() - 2, 1);
 
                                     System.out.println(data.getAmountOfGhosts()[ghost.getRowPosition()][ghost.getColPosition()]);
                                     System.out.println(data.getMapElements()[ghost.getRowPosition()][ghost.getColPosition()]);
@@ -357,13 +357,12 @@ public class PlayerInteractListener {
                                 if (ghost.getColPosition() <= 48) {
                                     map[ghost.getRowPosition()][ghost.getColPosition() + 2] = 'G';
                                     map[ghost.getRowPosition()][ghost.getColPosition()] = mapElements[ghost.getRowPosition()][ghost.getColPosition()];
-                                    data.addAmountOfGhosts(ghost.getRowPosition(), ghost1.getColPosition(), -1);
-                                    data.addAmountOfGhosts(ghost.getRowPosition(), ghost1.getColPosition() + 2, 1);
+                                    data.addAmountOfGhosts(ghost.getRowPosition(), ghost.getColPosition(), -1);
+                                    data.addAmountOfGhosts(ghost.getRowPosition(), ghost.getColPosition() + 2, 1);
 
                                         data.getGame().updateGhost(ghost.getRowPosition(), ghost.getColPosition(), ghost.getRowPosition(),
                                                 ghost.getColPosition() + 2, data.getMap(), ghost.getGhostColor(),
                                                 data.getMapElements()[ghost.getRowPosition()][ghost.getColPosition()]);
-
 
                                     ghost.setColPosition(ghost.getColPosition() + 2);
                                 }
