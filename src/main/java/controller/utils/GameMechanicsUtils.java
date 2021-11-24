@@ -5,6 +5,8 @@ import java.util.*;
 public class GameMechanicsUtils {
 
     public static boolean canGoTo(int row, int col, char[][] map) {
+        if (col > 50) return true;
+        if (col < 0) return true;
         if (map[row][col] != '▉' && map[row][col] != '▅' && map[row][col] != '━') {
             return true;
         } else {
