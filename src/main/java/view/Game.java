@@ -47,7 +47,7 @@ public class Game {
                     } else if (map[y][x] == 'C') {
                         textGraphics.setForegroundColor(TextColor.ANSI.YELLOW_BRIGHT);
                         textGraphics.putString(position.getColumn() + x, position.getRow() + y, String.valueOf(map[y][x]), SGR.BOLD);
-                    } else if (map[y][x] == 'G') {
+                    } else if (map[y][x] == '⍤') {
                         textGraphics.setForegroundColor(TextColor.ANSI.GREEN_BRIGHT);
                         textGraphics.putString(position.getColumn() + x, position.getRow() + y, String.valueOf(map[y][x]), SGR.BOLD);
                     } else {

@@ -169,7 +169,6 @@ public class PlayerInteractListener {
         }
     }
 
-
     public static void startGame(DataBase data) throws IOException, InterruptedException {
         data.setCurrentPoints(0);
         char[][] map = GameActivator.initMap(data);
@@ -177,9 +176,9 @@ public class PlayerInteractListener {
         data.setMapElements(mapElements);
 
         map[17][42] = 'C';
-        map[11][28] = 'G';
-        map[11][26] = 'G';
-        map[11][22] = 'G';
+        map[11][28] = '⍤';
+        map[11][26] = '⍤';
+        map[11][22] = '⍤';
         PacManCurrentPosition pacManCurrentPosition = new PacManCurrentPosition(17, 42);
         data.setPacManCurrentPosition(pacManCurrentPosition);
         data.setMap(map);
@@ -195,9 +194,9 @@ public class PlayerInteractListener {
         Ghost ghost3 = new Ghost(TextColor.ANSI.MAGENTA_BRIGHT, 11, 22);
         data.addGhost(ghost3);
         data.addAmountOfGhosts(ghost3.getRowPosition(), ghost3.getColPosition(), 1);
-        map[ghost1.getRowPosition()][ghost1.getColPosition()] = 'G';
-        map[ghost2.getRowPosition()][ghost2.getColPosition()] = 'G';
-        map[ghost3.getRowPosition()][ghost3.getColPosition()] = 'G';
+        map[ghost1.getRowPosition()][ghost1.getColPosition()] = '⍤';
+        map[ghost2.getRowPosition()][ghost2.getColPosition()] = '⍤';
+        map[ghost3.getRowPosition()][ghost3.getColPosition()] = '⍤';
         data.getGame().initializeGhost(ghost1.getRowPosition(), ghost1.getColPosition(), ghost1.getGhostColor(), map);
         data.getGame().initializeGhost(ghost2.getRowPosition(), ghost2.getColPosition(), ghost2.getGhostColor(), map);
         data.getGame().initializeGhost(ghost3.getRowPosition(), ghost3.getColPosition(), ghost3.getGhostColor(), map);
@@ -341,7 +340,7 @@ public class PlayerInteractListener {
                                     return;
                                 }
 
-                                map[ghost.getRowPosition() - 1][ghost.getColPosition()] = 'G';
+                                map[ghost.getRowPosition() - 1][ghost.getColPosition()] = '⍤';
                                 map[ghost.getRowPosition()][ghost.getColPosition()] = mapElements[ghost.getRowPosition()][ghost.getColPosition()];
                                 data.addAmountOfGhosts(ghost.getRowPosition(), ghost.getColPosition(), -1);
                                 data.addAmountOfGhosts(ghost.getRowPosition() - 1, ghost.getColPosition(), 1);
@@ -361,7 +360,7 @@ public class PlayerInteractListener {
                                     return;
                                 }
 
-                                map[ghost.getRowPosition() + 1][ghost.getColPosition()] = 'G';
+                                map[ghost.getRowPosition() + 1][ghost.getColPosition()] = '⍤';
                                 map[ghost.getRowPosition()][ghost.getColPosition()] = mapElements[ghost.getRowPosition()][ghost.getColPosition()];
                                 data.addAmountOfGhosts(ghost.getRowPosition(), ghost.getColPosition(), -1);
                                 data.addAmountOfGhosts(ghost.getRowPosition() + 1, ghost.getColPosition(), 1);
@@ -385,7 +384,7 @@ public class PlayerInteractListener {
                                 }
 
                                 if (ghost.getColPosition() >= 2) {
-                                    map[ghost.getRowPosition()][ghost.getColPosition() - 2] = 'G';
+                                    map[ghost.getRowPosition()][ghost.getColPosition() - 2] = '⍤';
                                     map[ghost.getRowPosition()][ghost.getColPosition()] = mapElements[ghost.getRowPosition()][ghost.getColPosition()];
                                     data.addAmountOfGhosts(ghost.getRowPosition(), ghost.getColPosition(), -1);
                                     data.addAmountOfGhosts(ghost.getRowPosition(), ghost.getColPosition() - 2, 1);
@@ -400,7 +399,7 @@ public class PlayerInteractListener {
 
                                     ghost.setColPosition(ghost.getColPosition() - 2);
                                 } else if (ghost.getColPosition() == 0) {
-                                    map[ghost.getRowPosition()][50] = 'G';
+                                    map[ghost.getRowPosition()][50] = '⍤';
                                     map[ghost.getRowPosition()][ghost.getColPosition()] = mapElements[ghost.getRowPosition()][ghost.getColPosition()];
                                     data.addAmountOfGhosts(ghost.getRowPosition(), ghost.getColPosition(), -1);
                                     data.addAmountOfGhosts(ghost.getRowPosition(), 50, 1);
@@ -419,7 +418,7 @@ public class PlayerInteractListener {
                                     return;
                                 }
                                 if (ghost.getColPosition() <= 48) {
-                                    map[ghost.getRowPosition()][ghost.getColPosition() + 2] = 'G';
+                                    map[ghost.getRowPosition()][ghost.getColPosition() + 2] = '⍤';
                                     map[ghost.getRowPosition()][ghost.getColPosition()] = mapElements[ghost.getRowPosition()][ghost.getColPosition()];
                                     data.addAmountOfGhosts(ghost.getRowPosition(), ghost.getColPosition(), -1);
                                     data.addAmountOfGhosts(ghost.getRowPosition(), ghost.getColPosition() + 2, 1);
@@ -429,7 +428,7 @@ public class PlayerInteractListener {
 
                                     ghost.setColPosition(ghost.getColPosition() + 2);
                                 } else if (ghost.getColPosition() == 50) {
-                                    map[ghost.getRowPosition()][0] = 'G';
+                                    map[ghost.getRowPosition()][0] = '⍤';
                                     map[ghost.getRowPosition()][ghost.getColPosition()] = mapElements[ghost.getRowPosition()][ghost.getColPosition()];
                                     data.addAmountOfGhosts(ghost.getRowPosition(), ghost.getColPosition(), -1);
                                     data.addAmountOfGhosts(ghost.getRowPosition(), 0, 1);
@@ -469,9 +468,9 @@ public class PlayerInteractListener {
             data.setInMainMenu(true);
             Terminal terminal = data.getTerminal();
             keyStroke = terminal.pollInput();
-            if (keyStroke != null) {
-            }
         }
+
+
 
     }
 }
