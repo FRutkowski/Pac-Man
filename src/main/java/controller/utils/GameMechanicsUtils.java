@@ -31,6 +31,10 @@ public class GameMechanicsUtils {
         int y = rowPositionGhost;
         Set<Path> orientantions = new HashSet<>();
 
+        if (x - 2 < 0 && latestPath == Path.LEFT) return Path.LEFT;
+        else if (x - 2 < 0 && latestPath == Path.RIGHT) return Path.RIGHT;
+        if (x + 2 > 50 && latestPath == Path.RIGHT) return Path.RIGHT;
+        else if (x + 2 > 50 && latestPath == Path.LEFT) return Path.LEFT;
         List<Path> availablePaths = new ArrayList<>();
         if (map[y - 1][x] == '•' || map[y - 1][x] == '⚫' || map[y - 1][x] == ' ' || map[y - 1][x] == '━') {
             availablePaths.add(Path.TOP);

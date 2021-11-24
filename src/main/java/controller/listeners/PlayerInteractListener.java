@@ -349,6 +349,16 @@ public class PlayerInteractListener {
 
 
                                     ghost.setColPosition(ghost.getColPosition() - 2);
+                                } else if (ghost.getColPosition() == 0) {
+                                    map[ghost.getRowPosition()][50] = 'G';
+                                    map[ghost.getRowPosition()][ghost.getColPosition()] = mapElements[ghost.getRowPosition()][ghost.getColPosition()];
+                                    data.addAmountOfGhosts(ghost.getRowPosition(), ghost.getColPosition(), -1);
+                                    data.addAmountOfGhosts(ghost.getRowPosition(), 50, 1);
+                                    data.getGame().updateGhost(ghost.getRowPosition(), ghost.getColPosition(), ghost.getRowPosition(),
+                                            50, data.getMap(), ghost.getGhostColor(),
+                                            data.getMapElements()[ghost.getRowPosition()][ghost.getColPosition()]);
+
+                                    ghost.setColPosition(50);
                                 }
 
                                 break;
@@ -359,12 +369,21 @@ public class PlayerInteractListener {
                                     map[ghost.getRowPosition()][ghost.getColPosition()] = mapElements[ghost.getRowPosition()][ghost.getColPosition()];
                                     data.addAmountOfGhosts(ghost.getRowPosition(), ghost.getColPosition(), -1);
                                     data.addAmountOfGhosts(ghost.getRowPosition(), ghost.getColPosition() + 2, 1);
-
                                         data.getGame().updateGhost(ghost.getRowPosition(), ghost.getColPosition(), ghost.getRowPosition(),
                                                 ghost.getColPosition() + 2, data.getMap(), ghost.getGhostColor(),
                                                 data.getMapElements()[ghost.getRowPosition()][ghost.getColPosition()]);
 
                                     ghost.setColPosition(ghost.getColPosition() + 2);
+                                } else if (ghost.getColPosition() == 50) {
+                                    map[ghost.getRowPosition()][0] = 'G';
+                                    map[ghost.getRowPosition()][ghost.getColPosition()] = mapElements[ghost.getRowPosition()][ghost.getColPosition()];
+                                    data.addAmountOfGhosts(ghost.getRowPosition(), ghost.getColPosition(), -1);
+                                    data.addAmountOfGhosts(ghost.getRowPosition(), 0, 1);
+                                    data.getGame().updateGhost(ghost.getRowPosition(), ghost.getColPosition(), ghost.getRowPosition(),
+                                            0, data.getMap(), ghost.getGhostColor(),
+                                            data.getMapElements()[ghost.getRowPosition()][ghost.getColPosition()]);
+
+                                    ghost.setColPosition(0);
                                 }
 
                                 break;
