@@ -319,6 +319,11 @@ public class PlayerInteractListener {
                             Thread.sleep(100);
                         }
 
+                        if (data.getAmountOfGhosts()[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn()] > 0) {
+                            PlayerInteractListener.gameOver(data);
+                            return;
+                        }
+
                         isArrowPressed = true;
                         break;
                 }
@@ -331,6 +336,11 @@ public class PlayerInteractListener {
                         switch (path) {
                             case TOP:
                                 System.out.println("moge isc do gory");
+                                if (ghost.getColPosition() == pacManCurrentPosition.getColumn() && (ghost.getRowPosition() == pacManCurrentPosition.getRow() || ghost.getRowPosition() - 1 == pacManCurrentPosition.getRow())) {
+                                    PlayerInteractListener.gameOver(data);
+                                    return;
+                                }
+
                                 map[ghost.getRowPosition() - 1][ghost.getColPosition()] = 'G';
                                 map[ghost.getRowPosition()][ghost.getColPosition()] = mapElements[ghost.getRowPosition()][ghost.getColPosition()];
                                 data.addAmountOfGhosts(ghost.getRowPosition(), ghost.getColPosition(), -1);
@@ -346,6 +356,11 @@ public class PlayerInteractListener {
                                 break;
                             case BOTTOM:
                                 System.out.println("moge isc do dolu");
+                                if (ghost.getColPosition() == pacManCurrentPosition.getColumn() && (ghost.getRowPosition() == pacManCurrentPosition.getRow() || ghost.getRowPosition() + 1 == pacManCurrentPosition.getRow())) {
+                                    PlayerInteractListener.gameOver(data);
+                                    return;
+                                }
+
                                 map[ghost.getRowPosition() + 1][ghost.getColPosition()] = 'G';
                                 map[ghost.getRowPosition()][ghost.getColPosition()] = mapElements[ghost.getRowPosition()][ghost.getColPosition()];
                                 data.addAmountOfGhosts(ghost.getRowPosition(), ghost.getColPosition(), -1);
@@ -364,7 +379,12 @@ public class PlayerInteractListener {
                             case LEFT:
 
                                 System.out.println("moge isc w lewo");
-                                if(ghost.getColPosition() >= 2) {
+                                if ((ghost.getColPosition() == pacManCurrentPosition.getColumn() || ghost.getColPosition() - 2 == pacManCurrentPosition.getColumn()) && ghost.getRowPosition() == pacManCurrentPosition.getRow()) {
+                                    PlayerInteractListener.gameOver(data);
+                                    return;
+                                }
+
+                                if (ghost.getColPosition() >= 2) {
                                     map[ghost.getRowPosition()][ghost.getColPosition() - 2] = 'G';
                                     map[ghost.getRowPosition()][ghost.getColPosition()] = mapElements[ghost.getRowPosition()][ghost.getColPosition()];
                                     data.addAmountOfGhosts(ghost.getRowPosition(), ghost.getColPosition(), -1);
@@ -394,6 +414,10 @@ public class PlayerInteractListener {
                                 break;
                             case RIGHT:
                                 System.out.println("moge isc w prawo");
+                                if ((ghost.getColPosition() == pacManCurrentPosition.getColumn() || ghost.getColPosition() + 2 == pacManCurrentPosition.getColumn()) && ghost.getRowPosition() == pacManCurrentPosition.getRow()) {
+                                    PlayerInteractListener.gameOver(data);
+                                    return;
+                                }
                                 if (ghost.getColPosition() <= 48) {
                                     map[ghost.getRowPosition()][ghost.getColPosition() + 2] = 'G';
                                     map[ghost.getRowPosition()][ghost.getColPosition()] = mapElements[ghost.getRowPosition()][ghost.getColPosition()];
@@ -434,5 +458,20 @@ public class PlayerInteractListener {
 
             System.out.println();
         }
+    }
+
+    public static void gameOver(DataBase data) throws IOException {
+        data.getGame().gameOver();
+
+        KeyStroke keyStroke = null;
+        while (keyStroke == null) {
+            data.setInGame(false);
+            data.setInMainMenu(true);
+            Terminal terminal = data.getTerminal();
+            keyStroke = terminal.pollInput();
+            if (keyStroke != null) {
+            }
+        }
+
     }
 }

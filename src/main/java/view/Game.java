@@ -85,4 +85,11 @@ public class Game {
         textGraphics.putString(position.getColumn() + col, position.getRow() + row, String.valueOf(map[row][col]), SGR.BOLD);
         screen.refresh();
     }
+
+    public void gameOver() throws IOException {
+        screen.clear();
+        textGraphics.setForegroundColor(TextColor.ANSI.RED);
+        textGraphics.putString(34,8, "GAME OVER", SGR.BLINK);
+        screen.refresh();
+    }
 }
