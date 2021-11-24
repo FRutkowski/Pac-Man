@@ -184,7 +184,8 @@ public class PlayerInteractListener {
         data.setMap(map);
         data.getGame().generateMap(map);
 
-
+        int[][] amountOfGhost = new int[data.getMapRows()][data.getMapColumns()];
+        data.setAmountOfGhosts(amountOfGhost);
         Ghost ghost1 = new Ghost(TextColor.ANSI.GREEN, 11, 28);
         data.addGhost(ghost1);
         data.addAmountOfGhosts(ghost1.getRowPosition(), ghost1.getColPosition(), 1);
@@ -320,6 +321,10 @@ public class PlayerInteractListener {
 
                         if (data.getAmountOfGhosts()[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn()] > 0) {
                             PlayerInteractListener.gameOver(data);
+                            System.out.println("Gra skonczyla sie gdy pacman wlazl na teren ducha");
+                            ghost1 = null;
+                            ghost2 = null;
+                            ghost3 = null;
                             return;
                         }
 
@@ -331,12 +336,11 @@ public class PlayerInteractListener {
                     List<Ghost> ghosts = data.getGhosts();
                     for (Ghost ghost : ghosts) {
                         Path path = GameMechanicsUtils.choosePath(data.getMapElements(), ghost.getRowPosition(), ghost.getColPosition(), ghost.getLatestPath());
-                        System.out.println("wybrana droga to " + path);
                         switch (path) {
                             case TOP:
-                                System.out.println("moge isc do gory");
                                 if (ghost.getColPosition() == pacManCurrentPosition.getColumn() && (ghost.getRowPosition() == pacManCurrentPosition.getRow() || ghost.getRowPosition() - 1 == pacManCurrentPosition.getRow())) {
                                     PlayerInteractListener.gameOver(data);
+                                    System.out.println("Gra skonczyla sie gdy duch " + ghost.getGhostColor() + " poszedl do gory");
                                     return;
                                 }
 
@@ -345,8 +349,6 @@ public class PlayerInteractListener {
                                 data.addAmountOfGhosts(ghost.getRowPosition(), ghost.getColPosition(), -1);
                                 data.addAmountOfGhosts(ghost.getRowPosition() - 1, ghost.getColPosition(), 1);
 
-                                System.out.println(data.getMapElements()[ghost.getRowPosition()][ghost.getColPosition()]);
-                                System.out.println(data.getAmountOfGhosts()[ghost.getRowPosition()][ghost.getColPosition()]);
                                     data.getGame().updateGhost(ghost.getRowPosition(), ghost.getColPosition(), ghost.getRowPosition() - 1,
                                             ghost.getColPosition(), data.getMap(), ghost.getGhostColor(),
                                             data.getMapElements()[ghost.getRowPosition()][ghost.getColPosition()]);
@@ -354,9 +356,9 @@ public class PlayerInteractListener {
                                 ghost.setRowPosition(ghost.getRowPosition() - 1);
                                 break;
                             case BOTTOM:
-                                System.out.println("moge isc do dolu");
                                 if (ghost.getColPosition() == pacManCurrentPosition.getColumn() && (ghost.getRowPosition() == pacManCurrentPosition.getRow() || ghost.getRowPosition() + 1 == pacManCurrentPosition.getRow())) {
                                     PlayerInteractListener.gameOver(data);
+                                    System.out.println("Gra skonczyla sie gdy duch " + ghost.getGhostColor() + " poszedl do dolu");
                                     return;
                                 }
 
@@ -364,10 +366,6 @@ public class PlayerInteractListener {
                                 map[ghost.getRowPosition()][ghost.getColPosition()] = mapElements[ghost.getRowPosition()][ghost.getColPosition()];
                                 data.addAmountOfGhosts(ghost.getRowPosition(), ghost.getColPosition(), -1);
                                 data.addAmountOfGhosts(ghost.getRowPosition() + 1, ghost.getColPosition(), 1);
-
-                                System.out.println(data.getMapElements()[ghost.getRowPosition()][ghost.getColPosition()]);
-                                System.out.println(data.getAmountOfGhosts()[ghost.getRowPosition()][ghost.getColPosition()]);
-                                    System.out.println("tuwchodzimy");
                                     data.getGame().updateGhost(ghost.getRowPosition(), ghost.getColPosition(), ghost.getRowPosition() + 1,
                                             ghost.getColPosition(), data.getMap(), ghost.getGhostColor(),
                                             data.getMapElements()[ghost.getRowPosition()][ghost.getColPosition()]);
@@ -377,9 +375,9 @@ public class PlayerInteractListener {
                                 break;
                             case LEFT:
 
-                                System.out.println("moge isc w lewo");
                                 if ((ghost.getColPosition() == pacManCurrentPosition.getColumn() || ghost.getColPosition() - 2 == pacManCurrentPosition.getColumn()) && ghost.getRowPosition() == pacManCurrentPosition.getRow()) {
                                     PlayerInteractListener.gameOver(data);
+                                    System.out.println("Gra skonczyla sie gdy duch " + ghost.getGhostColor() + " poszedl na lewo");
                                     return;
                                 }
 
@@ -388,10 +386,6 @@ public class PlayerInteractListener {
                                     map[ghost.getRowPosition()][ghost.getColPosition()] = mapElements[ghost.getRowPosition()][ghost.getColPosition()];
                                     data.addAmountOfGhosts(ghost.getRowPosition(), ghost.getColPosition(), -1);
                                     data.addAmountOfGhosts(ghost.getRowPosition(), ghost.getColPosition() - 2, 1);
-
-                                    System.out.println(data.getAmountOfGhosts()[ghost.getRowPosition()][ghost.getColPosition()]);
-                                    System.out.println(data.getMapElements()[ghost.getRowPosition()][ghost.getColPosition()]);
-                                        System.out.println("tuwchodzimy");
                                         data.getGame().updateGhost(ghost.getRowPosition(), ghost.getColPosition(), ghost.getRowPosition(),
                                                 ghost.getColPosition() - 2, data.getMap(), ghost.getGhostColor(),
                                                 data.getMapElements()[ghost.getRowPosition()][ghost.getColPosition()]);
@@ -412,11 +406,12 @@ public class PlayerInteractListener {
 
                                 break;
                             case RIGHT:
-                                System.out.println("moge isc w prawo");
                                 if ((ghost.getColPosition() == pacManCurrentPosition.getColumn() || ghost.getColPosition() + 2 == pacManCurrentPosition.getColumn()) && ghost.getRowPosition() == pacManCurrentPosition.getRow()) {
                                     PlayerInteractListener.gameOver(data);
+                                    System.out.println("Gra skonczyla sie gdy duch " + ghost.getGhostColor() + " poszedl na prawo");
                                     return;
                                 }
+
                                 if (ghost.getColPosition() <= 48) {
                                     map[ghost.getRowPosition()][ghost.getColPosition() + 2] = '⍤';
                                     map[ghost.getRowPosition()][ghost.getColPosition()] = mapElements[ghost.getRowPosition()][ghost.getColPosition()];
@@ -459,15 +454,22 @@ public class PlayerInteractListener {
         }
     }
 
-    public static void gameOver(DataBase data) throws IOException {
+    public static void gameOver(DataBase data) throws IOException, InterruptedException {
         data.getGame().gameOver();
 
         KeyStroke keyStroke = null;
         while (keyStroke == null) {
             data.setInGame(false);
             data.setInMainMenu(true);
+            data.setMap(null);
+            data.setAmountOfGhosts(null);
             Terminal terminal = data.getTerminal();
             keyStroke = terminal.pollInput();
+            Thread.sleep(2000);
+            if (keyStroke != null) {
+                data.getGame().clear();
+            }
+            data.getGhosts().clear();
         }
 
 

@@ -53,7 +53,7 @@ public class DataBase {
     private int currentPoints;
     public static boolean isLeftDirection = true;
     private List<Ghost> ghosts = new ArrayList<>();
-    private int[][] amountOfGhosts = new int[mapRows][mapColumns];
+    private int[][] amountOfGhosts;
     private char[][] mapElements;
 
     public DataBase(Terminal terminal, Screen screen, TextGraphics textGraphic) throws IOException {
@@ -248,6 +248,10 @@ public class DataBase {
         return isLeftDirection;
     }
 
+    public void setGhosts(List<Ghost> ghosts) {
+        this.ghosts = ghosts;
+    }
+
     public List<Ghost> getGhosts() {
         return ghosts;
     }
@@ -270,6 +274,10 @@ public class DataBase {
 
     public void setMapElements(char[][] mapElements) {
         this.mapElements = mapElements;
+    }
+
+    public void setAmountOfGhosts(int[][] amountOfGhosts) {
+        this.amountOfGhosts = amountOfGhosts;
     }
 }
 

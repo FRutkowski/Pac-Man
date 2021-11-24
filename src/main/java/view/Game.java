@@ -27,6 +27,7 @@ public class Game {
 
     public void clear() throws IOException {
         screen.clear();
+        textGraphics.setForegroundColor(TextColor.ANSI.WHITE);
         screen.refresh();
     }
 

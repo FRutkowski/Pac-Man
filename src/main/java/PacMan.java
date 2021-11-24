@@ -41,6 +41,7 @@ public class PacMan {
         data.setGame(game);
 
         while (true) {
+            data.getMainMenu().initializeView(data.getMainMenuOptions());
             PlayerInteractListener.onPlayerInteract(data);
         }
 

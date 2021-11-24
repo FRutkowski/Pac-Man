@@ -28,7 +28,6 @@ public class GameMechanicsUtils {
     }
 
     public static Path choosePath(char[][] map, int rowPositionGhost, int colPositionGhost, Path latestPath) {
-        System.out.println("dobra pora wybrac droge");
         int x = colPositionGhost;
         int y = rowPositionGhost;
         Set<Path> orientantions = new HashSet<>();
@@ -41,27 +40,21 @@ public class GameMechanicsUtils {
         if (map[y - 1][x] == '•' || map[y - 1][x] == '⚫' || map[y - 1][x] == ' ' || map[y - 1][x] == '━') {
             availablePaths.add(Path.TOP);
             orientantions.add(Path.VERTICAL);
-            System.out.println("moge isc w gore");
         }
 
         if (map[y + 1][x] == '•' || map[y + 1][x] == '⚫' || map[y + 1][x] == ' ') {
             availablePaths.add(Path.BOTTOM);
             orientantions.add(Path.VERTICAL);
-            System.out.println("moge isc w dol");
         }
 
-        System.out.println(map[y][x - 2]);
         if (map[y][x - 2] == '•' || map[y][x - 2] == '⚫' || map[y][x - 2] == ' ') {
             availablePaths.add(Path.LEFT);
             orientantions.add(Path.HORIZONTAL);
-            System.out.println("moge isc w lewo");
         }
 
-        System.out.println(map[y][x + 2]);
         if (map[y][x + 2] == '•' || map[y][x + 2] == '⚫' || map[y][x + 2] == ' ') {
             availablePaths.add(Path.RIGHT);
             orientantions.add(Path.HORIZONTAL);
-            System.out.println("moge isc w prawo");
         }
 
         if (availablePaths.size() > 2 || (orientantions.contains(Path.HORIZONTAL) && orientantions.contains(Path.VERTICAL))) {
