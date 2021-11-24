@@ -10,6 +10,8 @@ import com.googlecode.lanterna.terminal.Terminal;
 import view.Settings;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DataBase {
     private final String[] mainMenuOptions = {
@@ -50,6 +52,9 @@ public class DataBase {
     private char[][] map;
     private int currentPoints;
     public static boolean isLeftDirection = true;
+    private List<Ghost> ghosts = new ArrayList<>();
+    private int[][] amountOfGhosts = new int[mapRows][mapColumns];
+    private char[][] mapElements;
 
     public DataBase(Terminal terminal, Screen screen, TextGraphics textGraphic) throws IOException {
         this.terminal = terminal;
@@ -241,6 +246,30 @@ public class DataBase {
 
     public static boolean isLeftDirection() {
         return isLeftDirection;
+    }
+
+    public List<Ghost> getGhosts() {
+        return ghosts;
+    }
+
+    public void addGhost(Ghost ghost) {
+        ghosts.add(ghost);
+    }
+
+    public int[][] getAmountOfGhosts() {
+        return amountOfGhosts;
+    }
+
+    public void addAmountOfGhosts(int row, int col, int amountOfGhosts) {
+        this.amountOfGhosts[row][col] += amountOfGhosts;
+    }
+
+    public char[][] getMapElements() {
+        return mapElements;
+    }
+
+    public void setMapElements(char[][] mapElements) {
+        this.mapElements = mapElements;
     }
 }
 

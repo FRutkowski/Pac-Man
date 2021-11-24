@@ -1,15 +1,19 @@
 package controller.listeners;
 
+import com.googlecode.lanterna.TextColor;
 import controller.utils.GameActivator;
 import controller.utils.GameMechanicsUtils;
 import controller.utils.OptionChanger;
+import controller.utils.Path;
 import model.DataBase;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.terminal.Terminal;
+import model.Ghost;
 import model.PacManCurrentPosition;
 
 import java.io.IOException;
+import java.util.List;
 
 public class PlayerInteractListener {
     public static void onPlayerInteract(DataBase data) throws IOException, InterruptedException {
@@ -169,16 +173,32 @@ public class PlayerInteractListener {
     public static void startGame(DataBase data) throws IOException, InterruptedException {
         data.setCurrentPoints(0);
         char[][] map = GameActivator.initMap(data);
+        char[][] mapElements = GameActivator.initMap(data);
+        data.setMapElements(mapElements);
+
         map[17][42] = 'C';
+        map[11][28] = 'G';
         PacManCurrentPosition pacManCurrentPosition = new PacManCurrentPosition(17, 42);
         data.setPacManCurrentPosition(pacManCurrentPosition);
         data.setMap(map);
         data.getGame().generateMap(map);
-        //TODO add threads and ghosts
+
+
+        Ghost ghost1 = new Ghost(TextColor.ANSI.GREEN, 11, 28);
+        data.addGhost(ghost1);
+        data.addAmountOfGhosts(ghost1.getRowPosition(), ghost1.getColPosition(), 1);
+        map[ghost1.getRowPosition()][ghost1.getColPosition()] = 'G';
+//        Ghost ghost2 = new Ghost(TextColor.ANSI.RED, 11, 26);
+//        data.addGhost(ghost2);
+//        Ghost ghost3 = new Ghost(TextColor.ANSI.GREEN, 11, 22);
+//        data.addGhost(ghost3);
+//        data.addAmountOfGhosts(ghost2.getRowPosition(), ghost1.getColPosition(), 1);
+//        data.addAmountOfGhosts(ghost3.getRowPosition(), ghost1.getColPosition(), 1);
         while (data.isInGame()) {
             Terminal terminal = data.getTerminal();
             KeyStroke keyStroke = terminal.pollInput();
             if (keyStroke != null) {
+                boolean isArrowPressed = false;
                 switch (keyStroke.getKeyType()) {
                     case ArrowUp:
                         if (GameMechanicsUtils.canGoTo(pacManCurrentPosition.getRow() - 1, pacManCurrentPosition.getColumn(), map)) {
@@ -191,11 +211,13 @@ public class PlayerInteractListener {
                             }
 
                             map[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn()] = ' ';
+                            mapElements[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn()] = ' ';
                             pacManCurrentPosition.setRow(pacManCurrentPosition.getRow() - 1);
-                            data.setMap(map);
                             data.getGame().refreshMap(pacManCurrentPosition.getRow() + 1, pacManCurrentPosition.getColumn(), pacManCurrentPosition.getRow(), pacManCurrentPosition.getColumn(), map);
                             Thread.sleep(100);
                         }
+
+                        isArrowPressed = true;
                         break;
                     case ArrowDown:
                         if (GameMechanicsUtils.canGoTo(pacManCurrentPosition.getRow() + 1, pacManCurrentPosition.getColumn(), map)) {
@@ -208,12 +230,14 @@ public class PlayerInteractListener {
                             }
 
                             map[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn()] = ' ';
+                            mapElements[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn()] = ' ';
                             pacManCurrentPosition.setRow(pacManCurrentPosition.getRow() + 1);
-                            data.setMap(map);
+
                             data.getGame().refreshMap(pacManCurrentPosition.getRow() - 1, pacManCurrentPosition.getColumn(), pacManCurrentPosition.getRow(), pacManCurrentPosition.getColumn(), map);
                             Thread.sleep(100);
                         }
 
+                        isArrowPressed = true;
                         break;
                     case ArrowLeft:
                         DataBase.setIsLeftDirection(true);
@@ -227,12 +251,13 @@ public class PlayerInteractListener {
                             }
 
                             map[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn()] = ' ';
+                            mapElements[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn()] = ' ';
                             pacManCurrentPosition.setColumn(pacManCurrentPosition.getColumn() - 2);
-                            data.setMap(map);
                             data.getGame().refreshMap(pacManCurrentPosition.getRow(), pacManCurrentPosition.getColumn() + 2, pacManCurrentPosition.getRow(), pacManCurrentPosition.getColumn(), map);
                             Thread.sleep(100);
                         }
 
+                        isArrowPressed = true;
                         break;
                     case ArrowRight:
                         DataBase.setIsLeftDirection(false);
@@ -245,15 +270,122 @@ public class PlayerInteractListener {
                             }
 
                             map[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn()] = ' ';
+                            mapElements[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn()] = ' ';
                             pacManCurrentPosition.setColumn(pacManCurrentPosition.getColumn() + 2);
-                            data.setMap(map);
                             data.getGame().refreshMap(pacManCurrentPosition.getRow(), pacManCurrentPosition.getColumn() - 2, pacManCurrentPosition.getRow(), pacManCurrentPosition.getColumn(), map);
                             Thread.sleep(100);
                         }
+
+                        isArrowPressed = true;
                         break;
+                }
+
+                if (isArrowPressed) {
+                    List<Ghost> ghosts = data.getGhosts();
+                    for (Ghost ghost : ghosts) {
+                        Path path = GameMechanicsUtils.choosePath(data.getMap(), ghost.getRowPosition(), ghost.getColPosition());
+                        System.out.println("wybrana droga to " + path);
+                        switch (path) {
+                            case TOP:
+                                System.out.println("moge isc do gory");
+                                map[ghost.getRowPosition() - 1][ghost.getColPosition()] = 'G';
+                                map[ghost.getRowPosition()][ghost.getColPosition()] = mapElements[ghost.getRowPosition()][ghost.getColPosition()];
+                                data.addAmountOfGhosts(ghost.getRowPosition(), ghost1.getColPosition(), -1);
+                                data.addAmountOfGhosts(ghost.getRowPosition() - 1, ghost1.getColPosition(), 1);
+
+                                System.out.println(data.getMapElements()[ghost.getRowPosition()][ghost.getColPosition()]);
+                                System.out.println(data.getAmountOfGhosts()[ghost.getRowPosition()][ghost.getColPosition()]);
+                                if (data.getAmountOfGhosts()[ghost.getRowPosition()][ghost.getColPosition()] <= 1) {
+                                    data.getGame().updateGhost(ghost.getRowPosition(), ghost.getColPosition(), ghost.getRowPosition() - 1,
+                                            ghost.getColPosition(), data.getMap(), ghost.getGhostColor(),
+                                            data.getMapElements()[ghost.getRowPosition()][ghost.getColPosition()]);
+                                } else data.getGame().updateGhost(ghost.getRowPosition(), ghost.getColPosition(), ghost.getRowPosition() - 1,
+                                        ghost.getColPosition(), data.getMap(), ghost.getGhostColor(), 'G');
+
+                                ghost.setRowPosition(ghost.getRowPosition() - 1);
+                                break;
+                            case BOTTOM:
+                                System.out.println("moge isc do dolu");
+                                map[ghost.getRowPosition() + 1][ghost.getColPosition()] = 'G';
+                                map[ghost.getRowPosition()][ghost.getColPosition()] = mapElements[ghost.getRowPosition()][ghost.getColPosition()];
+                                data.addAmountOfGhosts(ghost.getRowPosition(), ghost1.getColPosition(), -1);
+                                data.addAmountOfGhosts(ghost.getRowPosition() + 1, ghost1.getColPosition(), 1);
+
+                                System.out.println(data.getMapElements()[ghost.getRowPosition()][ghost.getColPosition()]);
+                                System.out.println(data.getAmountOfGhosts()[ghost.getRowPosition()][ghost.getColPosition()]);
+                                if (data.getAmountOfGhosts()[ghost.getRowPosition()][ghost.getColPosition()] <= 1) {
+                                    System.out.println("tuwchodzimy");
+                                    data.getGame().updateGhost(ghost.getRowPosition(), ghost.getColPosition(), ghost.getRowPosition() + 1,
+                                            ghost.getColPosition(), data.getMap(), ghost.getGhostColor(),
+                                            data.getMapElements()[ghost.getRowPosition()][ghost.getColPosition()]);
+                                } else data.getGame().updateGhost(ghost.getRowPosition(), ghost.getColPosition(), ghost.getRowPosition() + 1,
+                                        ghost.getColPosition(), data.getMap(), ghost.getGhostColor(), 'G');
+
+
+                                ghost.setRowPosition(ghost.getRowPosition() + 1);
+                                break;
+                            case LEFT:
+
+                                System.out.println("moge isc w lewo");
+                                if(ghost.getColPosition() >= 2) {
+                                    map[ghost.getRowPosition()][ghost.getColPosition() - 2] = 'G';
+                                    map[ghost.getRowPosition()][ghost.getColPosition()] = mapElements[ghost.getRowPosition()][ghost.getColPosition()];
+                                    data.addAmountOfGhosts(ghost.getRowPosition(), ghost1.getColPosition(), -1);
+                                    data.addAmountOfGhosts(ghost.getRowPosition(), ghost1.getColPosition() - 2, 1);
+
+                                    System.out.println(data.getAmountOfGhosts()[ghost.getRowPosition()][ghost.getColPosition()]);
+                                    System.out.println(data.getMapElements()[ghost.getRowPosition()][ghost.getColPosition()]);
+                                    if (data.getAmountOfGhosts()[ghost.getRowPosition()][ghost.getColPosition()] <= 1) {
+                                        System.out.println("tuwchodzimy");
+                                        data.getGame().updateGhost(ghost.getRowPosition(), ghost.getColPosition(), ghost.getRowPosition(),
+                                                ghost.getColPosition() - 2, data.getMap(), ghost.getGhostColor(),
+                                                data.getMapElements()[ghost.getRowPosition()][ghost.getColPosition()]);
+                                    } else data.getGame().updateGhost(ghost.getRowPosition(), ghost.getColPosition(), ghost.getRowPosition(),
+                                            ghost.getColPosition() - 2, data.getMap(), ghost.getGhostColor(), 'G');
+
+
+                                    ghost.setColPosition(ghost.getColPosition() - 2);
+                                }
+
+                                break;
+                            case RIGHT:
+                                System.out.println("moge isc w prawo");
+                                if (ghost.getColPosition() <= 48) {
+                                    map[ghost.getRowPosition()][ghost.getColPosition() + 2] = 'G';
+                                    map[ghost.getRowPosition()][ghost.getColPosition()] = mapElements[ghost.getRowPosition()][ghost.getColPosition()];
+                                    data.addAmountOfGhosts(ghost.getRowPosition(), ghost1.getColPosition(), -1);
+                                    data.addAmountOfGhosts(ghost.getRowPosition(), ghost1.getColPosition() + 2, 1);
+
+
+                                    System.out.println(data.getMapElements()[ghost.getRowPosition()][ghost.getColPosition()]);
+                                    System.out.println(data.getAmountOfGhosts()[ghost.getRowPosition()][ghost.getColPosition()]);
+                                    if (data.getAmountOfGhosts()[ghost.getRowPosition()][ghost.getColPosition()] <= 1) {
+                                        System.out.println("tuwchodzimy");
+                                        data.getGame().updateGhost(ghost.getRowPosition(), ghost.getColPosition(), ghost.getRowPosition(),
+                                                ghost.getColPosition() + 2, data.getMap(), ghost.getGhostColor(),
+                                                data.getMapElements()[ghost.getRowPosition()][ghost.getColPosition()]);
+                                    } else data.getGame().updateGhost(ghost.getRowPosition(), ghost.getColPosition(), ghost.getRowPosition(),
+                                            ghost.getColPosition() + 2, data.getMap(), ghost.getGhostColor(), 'G');
+
+
+                                    ghost.setColPosition(ghost.getColPosition() + 2);
+                                }
+
+                                break;
+                        }
+                    }
                 }
             }
         }
     }
 
+    public static void printMap(DataBase data, char[][] test) {
+        for (int i = 0; i < data.getMapRows(); i++) {
+            for (int j = 0; j < data.getMapColumns(); j++) {
+                System.out.print(test[i][j]);
+            }
+
+            System.out.println();
+        }
+    }
 }

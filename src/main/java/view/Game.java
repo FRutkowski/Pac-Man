@@ -47,8 +47,10 @@ public class Game {
                     } else if (map[y][x] == 'C') {
                         textGraphics.setForegroundColor(TextColor.ANSI.YELLOW_BRIGHT);
                         textGraphics.putString(position.getColumn() + x, position.getRow() + y, String.valueOf(map[y][x]), SGR.BOLD);
-                    }
-                    else {
+                    } else if (map[y][x] == 'G') {
+                        textGraphics.setForegroundColor(TextColor.ANSI.GREEN_BRIGHT);
+                        textGraphics.putString(position.getColumn() + x, position.getRow() + y, String.valueOf(map[y][x]), SGR.BOLD);
+                    } else {
                         textGraphics.setForegroundColor(TextColor.ANSI.WHITE);
                         textGraphics.putString(position.getColumn() + x, position.getRow() + y, String.valueOf(map[y][x]));
                     }
@@ -56,6 +58,14 @@ public class Game {
             }
         }
 
+        screen.refresh();
+    }
+
+    public void updateGhost(int oldRow, int oldCol, int newRow, int newCol, char[][] map, TextColor.ANSI color, char currentField) throws IOException {
+        textGraphics.setForegroundColor(TextColor.ANSI.WHITE);
+        textGraphics.putString(position.getColumn() + oldCol, position.getRow() + oldRow, String.valueOf(currentField));
+        textGraphics.setForegroundColor(color);
+        textGraphics.putString(position.getColumn() + newCol, position.getRow() + newRow, String.valueOf(map[newRow][newCol]), SGR.BOLD);
         screen.refresh();
     }
 
