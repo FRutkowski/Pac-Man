@@ -28,12 +28,12 @@ public class Game {
 
     public void clear() throws IOException {
         screen.clear();
-        textGraphics.setForegroundColor(TextColor.ANSI.WHITE);
+        textGraphics.setForegroundColor(TextColor.ANSI.BLUE);
         screen.refresh();
     }
 
     public void showCurrentName(String playerName) throws IOException {
-        textGraphics.putString(34, 8, "Name: " + playerName);
+        textGraphics.putString(34, 8, "Name: " + playerName, SGR.BOLD);
         screen.refresh();
     }
 

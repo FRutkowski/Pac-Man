@@ -105,25 +105,27 @@ public class GameMechanicsUtils {
         int numberOfLine = 0;
 
         if (linesFromFile.size() == 0) {
-            System.out.println("jest 0 linii xD");
             linesToWrite.add(++numberOfLine + ". " + data.getPlayerName() + " " + data.getCurrentPoints());
         }
 
         for (String currentLine : linesFromFile) {
             ++numberOfLine;
             String[] lineElements = currentLine.split(" ");
-            if (!foundLineForScore) {
-                if (data.getCurrentPoints() > Integer.parseInt(lineElements[2])) {
-                    foundLineForScore = true;
-                    linesToWrite.add(numberOfLine + ". " + data.getPlayerName() + " " + data.getCurrentPoints());
-                    linesToWrite.add(++numberOfLine + ". " + lineElements[1] + " " + lineElements[2]);
-                    continue;
-                }
+            if (lineElements.length > 0) {
+                if (!foundLineForScore) {
+                    if (data.getCurrentPoints() > Integer.parseInt(lineElements[2])) {
+                        foundLineForScore = true;
+                        linesToWrite.add(numberOfLine + ". " + data.getPlayerName() + " " + data.getCurrentPoints());
+                        linesToWrite.add(++numberOfLine + ". " + lineElements[1] + " " + lineElements[2]);
+                        continue;
+                    }
 
-                linesToWrite.add(currentLine);
-            } else {
-                linesToWrite.add(numberOfLine + ". " + lineElements[1] + " " + lineElements[2]);
+                    linesToWrite.add(currentLine);
+                } else {
+                    linesToWrite.add(numberOfLine + ". " + lineElements[1] + " " + lineElements[2]);
+                }
             }
+
         }
 
         if (!foundLineForScore && linesFromFile.size() != 0) {

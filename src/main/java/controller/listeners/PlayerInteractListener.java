@@ -26,6 +26,10 @@ public class PlayerInteractListener {
             manageSettingsMenu(data);
         }
 
+        if (data.isInTopPlayers()) {
+            manageTopPlayersMenu(data);
+        }
+
         if (data.isInGame()) {
             pollPlayerName(data);
             startGame(data);
@@ -68,6 +72,12 @@ public class PlayerInteractListener {
                             data.getMenuSettings().initializeView(data.getMenuSettingsOptions());
                             data.setCurrentSettingsMenuIndex(0, null);
                             data.getMenuSettings().scrollGui(data.getCurrentSettingsMenuIndex(), null, data.getMenuSettingsOptions());
+
+                        } else if (data.getCurrentMainMenuIndex() == 2) {
+                            data.setInMainMenu(false);
+                            data.getMainMenu().clear();
+                            data.setInTopPlayers(true);
+                            data.getTopPlayers().initializeView(data.getTopPlayersOptions());
                         }
                         break;
                 }
@@ -131,6 +141,30 @@ public class PlayerInteractListener {
                             data.getMainMenu().scrollGui(data.getCurrentMainMenuIndex(), null, data.getMainMenuOptions());
                         }
 
+                        break;
+                }
+            }
+        }
+    }
+
+    public static void manageTopPlayersMenu(DataBase data) throws IOException {
+        while (data.isInTopPlayers()) {
+            Terminal terminal = data.getTerminal();
+            Screen screen = data.getScreen();
+            KeyStroke keyStroke = terminal.pollInput();
+            if (keyStroke != null) {
+                switch (keyStroke.getKeyType()) {
+                    case ArrowUp:
+                    case ArrowDown:
+                        data.getTopPlayers().arrowDownOrArrowUp();
+                        break;
+                    case Enter:
+                            data.setInTopPlayers(false);
+                            data.getTopPlayers().clear();
+                            data.setInMainMenu(true);
+                            data.getMainMenu().initializeView(data.getMainMenuOptions());
+                            data.setCurrentMainMenuIndex(0, null);
+                            data.getMainMenu().scrollGui(data.getCurrentMainMenuIndex(), null, data.getMainMenuOptions());
                         break;
                 }
             }
@@ -350,8 +384,7 @@ public class PlayerInteractListener {
                 data.getGame().writePoints(String.valueOf(data.getCurrentPoints()));
                 if (data.getAmountOfGhosts()[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn()] > 0) {
                     PlayerInteractListener.gameOver(data);
-                    System.out.println("Gra skonczyla sie gdy pacman wlazl na teren ducha");
-                    ghost1 = null;
+//                    ghost1 = null;
 //                    ghost2 = null;
 //                    ghost3 = null;
                     return;
@@ -365,7 +398,6 @@ public class PlayerInteractListener {
                             case TOP:
                                 if (ghost.getColPosition() == pacManCurrentPosition.getColumn() && (ghost.getRowPosition() == pacManCurrentPosition.getRow() || ghost.getRowPosition() - 1 == pacManCurrentPosition.getRow())) {
                                     PlayerInteractListener.gameOver(data);
-                                    System.out.println("Gra skonczyla sie gdy duch " + ghost.getGhostColor() + " poszedl do gory");
                                     return;
                                 }
 
@@ -383,7 +415,6 @@ public class PlayerInteractListener {
                             case BOTTOM:
                                 if (ghost.getColPosition() == pacManCurrentPosition.getColumn() && (ghost.getRowPosition() == pacManCurrentPosition.getRow() || ghost.getRowPosition() + 1 == pacManCurrentPosition.getRow())) {
                                     PlayerInteractListener.gameOver(data);
-                                    System.out.println("Gra skonczyla sie gdy duch " + ghost.getGhostColor() + " poszedl do dolu");
                                     return;
                                 }
 
@@ -402,7 +433,6 @@ public class PlayerInteractListener {
 
                                 if ((ghost.getColPosition() == pacManCurrentPosition.getColumn() || ghost.getColPosition() - 2 == pacManCurrentPosition.getColumn()) && ghost.getRowPosition() == pacManCurrentPosition.getRow()) {
                                     PlayerInteractListener.gameOver(data);
-                                    System.out.println("Gra skonczyla sie gdy duch " + ghost.getGhostColor() + " poszedl na lewo");
                                     return;
                                 }
 
@@ -433,7 +463,6 @@ public class PlayerInteractListener {
                             case RIGHT:
                                 if ((ghost.getColPosition() == pacManCurrentPosition.getColumn() || ghost.getColPosition() + 2 == pacManCurrentPosition.getColumn()) && ghost.getRowPosition() == pacManCurrentPosition.getRow()) {
                                     PlayerInteractListener.gameOver(data);
-                                    System.out.println("Gra skonczyla sie gdy duch " + ghost.getGhostColor() + " poszedl na prawo");
                                     return;
                                 }
 

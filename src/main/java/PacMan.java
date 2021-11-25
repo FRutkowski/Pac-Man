@@ -13,10 +13,8 @@ import com.googlecode.lanterna.terminal.swing.SwingTerminalFrame;
 import com.googlecode.lanterna.terminal.swing.TerminalEmulatorAutoCloseTrigger;
 import controller.listeners.PlayerInteractListener;
 import model.DataBase;
-import view.Game;
-import view.MainMenu;
+import view.*;
 import view.Menu;
-import view.Settings;
 
 import javax.xml.soap.Text;
 import java.awt.*;
@@ -35,9 +33,11 @@ public class PacMan {
         DataBase data = new DataBase(terminal, screen, textGraphics);
         MainMenu mainMenu = new MainMenu(terminal, screen, textGraphics, data.getMainMenuOptions());
         Settings menuSettings = new Settings(terminal, screen, textGraphics);
+        TopPlayers topPlayers = new TopPlayers(terminal, screen, textGraphics);
         Game game = new Game(terminal, screen, textGraphics);
         data.setMainMenu(mainMenu);
         data.setSettingsMenu(menuSettings);
+        data.setTopPlayers(topPlayers);
         data.setGame(game);
 
         while (true) {

@@ -17,7 +17,7 @@ public class Settings extends Menu {
 
     @Override
     public void scrollGui(int currentMenuIndex, Integer earlierIndex, String[] mainMenuOptions) throws IOException {
-        if (earlierIndex != null) textGraphics.putString(position.getColumn(), rowForIndex.get(earlierIndex), mainMenuOptions[earlierIndex], SGR.BORDERED);
+        if (earlierIndex != null) textGraphics.putString(position.getColumn(), rowForIndex.get(earlierIndex), mainMenuOptions[earlierIndex], SGR.BOLD);
         textGraphics.putString(position.getColumn(), rowForIndex.get(currentMenuIndex), mainMenuOptions[currentMenuIndex], SGR.REVERSE);
         screen.refresh();
     }
@@ -28,7 +28,7 @@ public class Settings extends Menu {
         int y = 0;
         for (String menuOption : mainMenuOptions) {
             if (!initializedRowForIndex) rowForIndex.put(y++, i);
-            textGraphics.putString(position.getColumn(), i++, menuOption);
+            textGraphics.putString(position.getColumn(), i++, menuOption, SGR.BOLD);
         }
 
         initializedRowForIndex = true;

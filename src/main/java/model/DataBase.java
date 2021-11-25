@@ -8,6 +8,7 @@ import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import view.Settings;
+import view.TopPlayers;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,6 +29,9 @@ public class DataBase {
             "BACK"
     };
 
+    private String[] topPlayersOptions = {
+            "BACK"
+    };
 
     private DefaultTerminalFactory defaultTerminalFactory = new DefaultTerminalFactory();
     private Terminal terminal;
@@ -35,6 +39,7 @@ public class DataBase {
     private TextGraphics textGraphics;
     private boolean isInMainMenu = true;
     private boolean isInSettings = false;
+    private boolean isInTopPlayers = false;
     private boolean isInGame = false;
     private boolean isSoundOn = true;
     private String gameLevel = "MEDIUM";
@@ -45,6 +50,7 @@ public class DataBase {
     private int currentSettingsMenuIndex = 0;
     private MainMenu menu;
     private Settings menuSettings;
+    private TopPlayers topPlayers;
     private Game game;
     private String playerName = "Player";
     public boolean firstClick = true;
@@ -278,6 +284,30 @@ public class DataBase {
 
     public void setAmountOfGhosts(int[][] amountOfGhosts) {
         this.amountOfGhosts = amountOfGhosts;
+    }
+
+    public TopPlayers getTopPlayers() {
+        return topPlayers;
+    }
+
+    public void setTopPlayers(TopPlayers topPlayers) {
+        this.topPlayers = topPlayers;
+    }
+
+    public boolean isInTopPlayers() {
+        return isInTopPlayers;
+    }
+
+    public void setInTopPlayers(boolean inTopPlayers) {
+        isInTopPlayers = inTopPlayers;
+    }
+
+    public String[] getTopPlayersOptions() {
+        return topPlayersOptions;
+    }
+
+    public void setTopPlayersOptions(String[] topPlayersOptions) {
+        this.topPlayersOptions = topPlayersOptions;
     }
 }
 
