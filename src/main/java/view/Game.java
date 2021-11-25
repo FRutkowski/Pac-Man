@@ -9,6 +9,7 @@ import com.googlecode.lanterna.terminal.Terminal;
 import model.DataBase;
 import model.PacManCurrentPosition;
 
+import javax.xml.soap.Text;
 import java.io.IOException;
 
 public class Game {
@@ -91,6 +92,26 @@ public class Game {
         screen.clear();
         textGraphics.setForegroundColor(TextColor.ANSI.RED);
         textGraphics.putString(34,8, "GAME OVER", SGR.BLINK);
+        screen.refresh();
+    }
+
+    public void writePoints(String points) throws IOException {
+        textGraphics.setForegroundColor(TextColor.ANSI.YELLOW);
+        textGraphics.putString(position.getColumn() - 10, position.getRow(), points, SGR.BOLD);
+        screen.refresh();
+    }
+
+    public void clearPoints() throws IOException {
+        textGraphics.setForegroundColor(TextColor.ANSI.WHITE);
+        textGraphics.putString(position.getColumn() - 10, position.getRow(), "         ", SGR.BOLD);
+        screen.refresh();
+    }
+
+    public void roundWon() throws IOException {
+        screen.clear();
+        textGraphics.setForegroundColor(TextColor.ANSI.GREEN);
+        textGraphics.putString(34,8, "ROUND WON", SGR.BOLD);
+        textGraphics.putString(24,9, "Click enter to start next round", SGR.BLINK);
         screen.refresh();
     }
 }

@@ -1,6 +1,7 @@
 package controller.listeners;
 
 import com.googlecode.lanterna.TextColor;
+import com.googlecode.lanterna.input.KeyType;
 import controller.utils.GameActivator;
 import controller.utils.GameMechanicsUtils;
 import controller.utils.OptionChanger;
@@ -170,7 +171,7 @@ public class PlayerInteractListener {
     }
 
     public static void startGame(DataBase data) throws IOException, InterruptedException {
-        data.setCurrentPoints(0);
+
         char[][] map = GameActivator.initMap(data);
         char[][] mapElements = GameActivator.initMap(data);
         data.setMapElements(mapElements);
@@ -255,8 +256,8 @@ public class PlayerInteractListener {
                     case ArrowLeft:
                         DataBase.setIsLeftDirection(true);
                         if (GameMechanicsUtils.canGoTo(pacManCurrentPosition.getRow(), pacManCurrentPosition.getColumn() - 2, map)) {
-                            data.addPoints(GameMechanicsUtils.calculatePoints(pacManCurrentPosition.getRow(), pacManCurrentPosition.getColumn(), mapElements));
                             if (pacManCurrentPosition.getColumn() == 0) {
+                                data.addPoints(GameMechanicsUtils.calculatePoints(pacManCurrentPosition.getRow(), 50, mapElements));
                                 if (map[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn()] != 'O') {
                                     map[pacManCurrentPosition.getRow()][50] = 'O';
                                 } else {
@@ -269,6 +270,7 @@ public class PlayerInteractListener {
                                 pacManCurrentPosition.setColumn(50);
                                 data.getGame().refreshMap(pacManCurrentPosition.getRow(), 0, pacManCurrentPosition.getRow(), pacManCurrentPosition.getColumn(), map);
                             } else {
+                                data.addPoints(GameMechanicsUtils.calculatePoints(pacManCurrentPosition.getRow(), pacManCurrentPosition.getColumn() - 2, mapElements));
                                 if (map[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn()] != 'O') {
                                     map[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn() - 2] = 'O';
                                 } else {
@@ -291,8 +293,8 @@ public class PlayerInteractListener {
                     case ArrowRight:
                         DataBase.setIsLeftDirection(false);
                         if (GameMechanicsUtils.canGoTo(pacManCurrentPosition.getRow(), pacManCurrentPosition.getColumn() + 2, map)) {
-                            data.addPoints(GameMechanicsUtils.calculatePoints(pacManCurrentPosition.getRow(), pacManCurrentPosition.getColumn(), mapElements));
                             if (pacManCurrentPosition.getColumn() == 50) {
+                                data.addPoints(GameMechanicsUtils.calculatePoints(pacManCurrentPosition.getRow(), 0, mapElements));
                                 if (map[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn()] != 'O') {
                                     map[pacManCurrentPosition.getRow()][0] = 'O';
                                 } else {
@@ -304,6 +306,7 @@ public class PlayerInteractListener {
                                 pacManCurrentPosition.setColumn(0);
                                 data.getGame().refreshMap(pacManCurrentPosition.getRow(), 50, pacManCurrentPosition.getRow(), pacManCurrentPosition.getColumn(), map);
                             } else {
+                                data.addPoints(GameMechanicsUtils.calculatePoints(pacManCurrentPosition.getRow(), pacManCurrentPosition.getColumn() + 2, mapElements));
                                 if (map[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn()] != 'O') {
                                     map[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn() + 2] = 'O';
                                 } else {
@@ -319,17 +322,18 @@ public class PlayerInteractListener {
                             Thread.sleep(100);
                         }
 
-                        if (data.getAmountOfGhosts()[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn()] > 0) {
-                            PlayerInteractListener.gameOver(data);
-                            System.out.println("Gra skonczyla sie gdy pacman wlazl na teren ducha");
-                            ghost1 = null;
-                            ghost2 = null;
-                            ghost3 = null;
-                            return;
-                        }
-
                         isArrowPressed = true;
                         break;
+                }
+
+                data.getGame().writePoints(String.valueOf(data.getCurrentPoints()));
+                if (data.getAmountOfGhosts()[pacManCurrentPosition.getRow()][pacManCurrentPosition.getColumn()] > 0) {
+                    PlayerInteractListener.gameOver(data);
+                    System.out.println("Gra skonczyla sie gdy pacman wlazl na teren ducha");
+                    ghost1 = null;
+//                    ghost2 = null;
+//                    ghost3 = null;
+                    return;
                 }
 
                 if (isArrowPressed) {
@@ -440,6 +444,11 @@ public class PlayerInteractListener {
                         ghost.setLatestPath(path);
                     }
                 }
+
+                if (data.getCurrentPoints() % 2850 == 0) {
+                    roundWon(data);
+                    return;
+                }
             }
         }
     }
@@ -463,6 +472,7 @@ public class PlayerInteractListener {
             data.setInMainMenu(true);
             data.setMap(null);
             data.setAmountOfGhosts(null);
+            data.setCurrentPoints(0);
             Terminal terminal = data.getTerminal();
             keyStroke = terminal.pollInput();
             Thread.sleep(2000);
@@ -471,8 +481,31 @@ public class PlayerInteractListener {
             }
             data.getGhosts().clear();
         }
+    }
 
-
-
+    public static void roundWon(DataBase data) throws IOException, InterruptedException {
+        data.getGame().roundWon();
+        KeyStroke keyStroke = null;
+        while (keyStroke == null) {
+            Terminal terminal = data.getTerminal();
+             keyStroke = terminal.pollInput();
+            if (keyStroke != null) {
+                if (keyStroke.getKeyType().equals(KeyType.Enter)) {
+                    data.setMap(null);
+                    data.setAmountOfGhosts(null);
+                    System.out.println(data.getCurrentPoints());
+                    data.getGhosts().clear();
+                    startGame(data);
+                } else {
+                    data.setInGame(false);
+                    data.setInMainMenu(true);
+                    data.setMap(null);
+                    data.setAmountOfGhosts(null);
+                    data.setCurrentPoints(0);
+                    data.getGame().clear();
+                    data.getGhosts().clear();
+                }
+            }
+        }
     }
 }
