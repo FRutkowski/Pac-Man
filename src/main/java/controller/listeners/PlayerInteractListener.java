@@ -466,7 +466,7 @@ public class PlayerInteractListener {
                     }
                 }
 
-                if (data.getCurrentPoints() % 2850 == 0) {
+                if (data.getCurrentPoints() % 2850 == 0 && data.getCurrentPoints() != 0) {
                     roundWon(data);
                     return;
                 }
