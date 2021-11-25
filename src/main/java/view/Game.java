@@ -91,7 +91,8 @@ public class Game {
     public void gameOver() throws IOException {
         screen.clear();
         textGraphics.setForegroundColor(TextColor.ANSI.RED);
-        textGraphics.putString(34,8, "GAME OVER", SGR.BLINK);
+        textGraphics.putString(34,8, "GAME OVER", SGR.BOLD);
+        textGraphics.putString(23,9, "Click enter to return to the menu", SGR.BLINK);
         screen.refresh();
     }
 

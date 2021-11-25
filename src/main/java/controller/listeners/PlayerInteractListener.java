@@ -467,19 +467,22 @@ public class PlayerInteractListener {
         data.getGame().gameOver();
 
         KeyStroke keyStroke = null;
-        while (keyStroke == null) {
+        boolean isEnter = false;
+        while (!isEnter) {
             data.setInGame(false);
             data.setInMainMenu(true);
             data.setMap(null);
             data.setAmountOfGhosts(null);
             data.setCurrentPoints(0);
+            data.getGhosts().clear();
             Terminal terminal = data.getTerminal();
             keyStroke = terminal.pollInput();
-            Thread.sleep(2000);
             if (keyStroke != null) {
-                data.getGame().clear();
+                if (keyStroke.getKeyType().equals(KeyType.Enter)) {
+                    data.getGame().clear();
+                    isEnter = true;
+                }
             }
-            data.getGhosts().clear();
         }
     }
 
