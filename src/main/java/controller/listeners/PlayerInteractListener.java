@@ -180,6 +180,8 @@ public class PlayerInteractListener {
         map[11][28] = '⍤';
         map[11][26] = '⍤';
         map[11][22] = '⍤';
+        if (data.getGameLevel().equals("MEDIUM") || data.getGameLevel().equals("HARD")) map[11][24] = '⍤';
+        if (data.getGameLevel().equals("HARD")) map[9][28] = '⍤';
         PacManCurrentPosition pacManCurrentPosition = new PacManCurrentPosition(17, 42);
         data.setPacManCurrentPosition(pacManCurrentPosition);
         data.setMap(map);
@@ -196,6 +198,25 @@ public class PlayerInteractListener {
         Ghost ghost3 = new Ghost(TextColor.ANSI.MAGENTA_BRIGHT, 11, 22);
         data.addGhost(ghost3);
         data.addAmountOfGhosts(ghost3.getRowPosition(), ghost3.getColPosition(), 1);
+        Ghost ghost4;
+        Ghost ghost5;
+
+        if (data.getGameLevel().equals("MEDIUM") || data.getGameLevel().equals("HARD")) {
+            ghost4 = new Ghost(TextColor.ANSI.CYAN, 11, 24);
+            data.addGhost(ghost4);
+            data.addAmountOfGhosts(ghost4.getRowPosition(), ghost4.getColPosition(), 1);
+            map[ghost4.getRowPosition()][ghost4.getColPosition()] = '⍤';
+            data.getGame().initializeGhost(ghost4.getRowPosition(), ghost4.getColPosition(), ghost4.getGhostColor(), map);
+        }
+
+        if (data.getGameLevel().equals("HARD")) {
+            ghost5 = new Ghost(TextColor.ANSI.YELLOW_BRIGHT, 9, 28);
+            data.addGhost(ghost5);
+            data.addAmountOfGhosts(ghost5.getRowPosition(), ghost5.getColPosition(), 1);
+            map[ghost5.getRowPosition()][ghost5.getColPosition()] = '⍤';
+            data.getGame().initializeGhost(ghost5.getRowPosition(), ghost5.getColPosition(), ghost5.getGhostColor(), map);
+        }
+
         map[ghost1.getRowPosition()][ghost1.getColPosition()] = '⍤';
         map[ghost2.getRowPosition()][ghost2.getColPosition()] = '⍤';
         map[ghost3.getRowPosition()][ghost3.getColPosition()] = '⍤';
