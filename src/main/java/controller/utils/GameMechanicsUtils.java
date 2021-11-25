@@ -1,5 +1,14 @@
 package controller.utils;
 
+import model.DataBase;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.*;
 
 public class GameMechanicsUtils {
@@ -82,5 +91,53 @@ public class GameMechanicsUtils {
         }
 
         return false;
+    }
+
+    public static void writeScoreToFile(DataBase data) throws IOException {
+        File topPlayers = new File("topPlayers.txt");
+        topPlayers.createNewFile();
+
+
+        List<String> linesFromFile = Files.readAllLines(Paths.get("topPlayers.txt"));
+        PrintWriter writer = new PrintWriter(topPlayers);
+        List<String> linesToWrite = new ArrayList<>();
+        boolean foundLineForScore = false;
+        int numberOfLine = 0;
+
+        if (linesFromFile.size() == 0) {
+            System.out.println("jest 0 linii xD");
+            linesToWrite.add(++numberOfLine + ". " + data.getPlayerName() + " " + data.getCurrentPoints());
+        }
+
+        for (String currentLine : linesFromFile) {
+            ++numberOfLine;
+            String[] lineElements = currentLine.split(" ");
+            if (!foundLineForScore) {
+                if (data.getCurrentPoints() > Integer.parseInt(lineElements[2])) {
+                    foundLineForScore = true;
+                    linesToWrite.add(numberOfLine + ". " + data.getPlayerName() + " " + data.getCurrentPoints());
+                    linesToWrite.add(++numberOfLine + ". " + lineElements[1] + " " + lineElements[2]);
+                    continue;
+                }
+
+                linesToWrite.add(currentLine);
+            } else {
+                linesToWrite.add(numberOfLine + ". " + lineElements[1] + " " + lineElements[2]);
+            }
+        }
+
+        if (!foundLineForScore && linesFromFile.size() != 0) {
+            linesToWrite.add(++numberOfLine + ". " + data.getPlayerName() + " " + data.getCurrentPoints());
+        }
+
+        writer.print("");
+        writer.close();
+        PrintWriter writer2 = new PrintWriter(topPlayers);
+
+        for (String line : linesToWrite) {
+            writer2.println(line);
+        }
+
+        writer2.close();
     }
 }

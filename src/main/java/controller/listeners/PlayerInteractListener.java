@@ -487,6 +487,7 @@ public class PlayerInteractListener {
     public static void gameOver(DataBase data) throws IOException, InterruptedException {
         data.getGame().gameOver();
 
+        GameMechanicsUtils.writeScoreToFile(data);
         KeyStroke keyStroke = null;
         boolean isEnter = false;
         while (!isEnter) {
@@ -521,6 +522,7 @@ public class PlayerInteractListener {
                     data.getGhosts().clear();
                     startGame(data);
                 } else {
+                    GameMechanicsUtils.writeScoreToFile(data);
                     data.setInGame(false);
                     data.setInMainMenu(true);
                     data.setMap(null);
