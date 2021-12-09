@@ -11,8 +11,7 @@ import java.io.IOException;
 
 public class Settings extends Menu {
 
-    public Settings(Terminal terminal, Screen screen, TextGraphics textGraphics) throws IOException, FontFormatException {
-        super(terminal, screen, textGraphics);
+    public Settings() throws IOException, FontFormatException {
     }
 
     @Override

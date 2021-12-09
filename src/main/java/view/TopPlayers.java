@@ -15,8 +15,7 @@ import java.util.List;
 
 public class TopPlayers extends Menu {
 
-    public TopPlayers(Terminal terminal, Screen screen, TextGraphics textGraphics2) throws IOException, FontFormatException {
-        super(terminal, screen, textGraphics2);
+    public TopPlayers() throws IOException, FontFormatException {
         this.position = new TerminalPosition(15,1);
     }
 

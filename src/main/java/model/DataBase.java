@@ -33,10 +33,6 @@ public class DataBase {
             "BACK"
     };
 
-    private DefaultTerminalFactory defaultTerminalFactory = new DefaultTerminalFactory();
-    private Terminal terminal;
-    private Screen screen;
-    private TextGraphics textGraphics;
     private boolean isInMainMenu = true;
     private boolean isInSettings = false;
     private boolean isInTopPlayers = false;
@@ -62,10 +58,7 @@ public class DataBase {
     private int[][] amountOfGhosts;
     private char[][] mapElements;
 
-    public DataBase(Terminal terminal, Screen screen, TextGraphics textGraphic) throws IOException {
-        this.terminal = terminal;
-        this.screen = screen;
-        this.textGraphics = textGraphic;
+    public DataBase() throws IOException {
 
     }
 
@@ -105,13 +98,7 @@ public class DataBase {
         isInMainMenu = inMainMenu;
     }
 
-    public Terminal getTerminal() {
-        return terminal;
-    }
 
-    public Screen getScreen() {
-        return screen;
-    }
 
     public int getCurrentMainMenuIndex() {
         return currentMainMenuIndex;
@@ -143,10 +130,6 @@ public class DataBase {
 
     public String[] getMenuSettingsOptions() {
         return menuSettingsOptions;
-    }
-
-    public TextGraphics getTextGraphics() {
-        return textGraphics;
     }
 
     public boolean isSoundOn() {

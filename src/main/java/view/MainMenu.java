@@ -12,9 +12,8 @@ import java.io.IOException;
 
 public class MainMenu extends Menu {
 
-    public MainMenu(Terminal terminal, Screen screen, TextGraphics textGraphics, String[] mainMenuOptions) throws IOException, FontFormatException {
-        super(terminal, screen, textGraphics);
-        initializeView(mainMenuOptions);
+    public MainMenu(String[] mainMenuOptions) throws IOException, FontFormatException {
+
     }
 
     @Override

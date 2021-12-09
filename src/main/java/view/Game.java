@@ -19,10 +19,8 @@ public class Game {
     private TextGraphics textGraphics;
     private TerminalPosition position = new TerminalPosition(15, 1);
 
-    public Game(Terminal terminal, Screen screen, TextGraphics textGraphics) {
-        this.terminal = terminal;
-        this.screen = screen;
-        if (this.textGraphics == null) this.textGraphics = textGraphics;
+    public Game() {
+
     }
 
 

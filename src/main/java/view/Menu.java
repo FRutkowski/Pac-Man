@@ -20,10 +20,7 @@ public abstract class Menu {
     protected boolean initializedRowForIndex = false;
     TextGraphics textGraphics = null;
 
-    public Menu(Terminal terminal, Screen screen, TextGraphics textGraphics2) throws IOException, FontFormatException {
-        this.screen = screen;
-        this.terminal = terminal;
-        if (textGraphics == null) this.textGraphics = textGraphics2;
+    public Menu() {
 
     }
 

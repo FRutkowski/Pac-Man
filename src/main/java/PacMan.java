@@ -1,49 +1,60 @@
-import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.TextCharacter;
-import com.googlecode.lanterna.graphics.TextGraphics;
-import com.googlecode.lanterna.gui2.BasicWindow;
-import com.googlecode.lanterna.gui2.Window;
-import com.googlecode.lanterna.screen.Screen;
-import com.googlecode.lanterna.screen.ScreenBuffer;
-import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
-import com.googlecode.lanterna.terminal.Terminal;
-import com.googlecode.lanterna.terminal.TerminalResizeListener;
-import com.googlecode.lanterna.terminal.swing.SwingTerminalFrame;
-import com.googlecode.lanterna.terminal.swing.TerminalEmulatorAutoCloseTrigger;
 import controller.listeners.PlayerInteractListener;
 import model.DataBase;
-import view.*;
-import view.Menu;
+import view.Game;
+import view.MainMenu;
+import view.Settings;
+import view.TopPlayers;
 
-import javax.xml.soap.Text;
+import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 
-public class PacMan {
-    public static void onEnable() throws IOException, InterruptedException, FontFormatException {
+public class PacMan extends JPanel {
+    public static void main(String[] args) throws IOException, InterruptedException, FontFormatException {
+        JFrame frame = new JFrame("Pac-Man");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
 
-        DefaultTerminalFactory defaultTerminalFactory = new DefaultTerminalFactory();
-        Terminal terminal =  defaultTerminalFactory.createTerminal();
-        Screen screen = new TerminalScreen(terminal);
-        screen.startScreen();
-        screen.setCursorPosition(null);
-        TextGraphics textGraphics = screen.newTextGraphics();
-        DataBase data = new DataBase(terminal, screen, textGraphics);
-        MainMenu mainMenu = new MainMenu(terminal, screen, textGraphics, data.getMainMenuOptions());
-        Settings menuSettings = new Settings(terminal, screen, textGraphics);
-        TopPlayers topPlayers = new TopPlayers(terminal, screen, textGraphics);
-        Game game = new Game(terminal, screen, textGraphics);
+        DataBase data = new DataBase();
+        PacMan pacMan = new PacMan(data);
+
+        pacMan.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                super.keyTyped(e);
+            }
+
+            @Override
+            public void keyPressed(KeyEvent event) {
+                super.keyPressed(event);
+                try {
+                    PlayerInteractListener.onPlayerInteract(data, event);
+                } catch (IOException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                super.keyReleased(e);
+            }
+        });
+
+    }
+
+    public PacMan(DataBase data) throws IOException, FontFormatException {
+        MainMenu mainMenu = new MainMenu(data.getMainMenuOptions());
+        Settings menuSettings = new Settings();
+        TopPlayers topPlayers = new TopPlayers();
+        Game game = new Game();
         data.setMainMenu(mainMenu);
         data.setSettingsMenu(menuSettings);
         data.setTopPlayers(topPlayers);
         data.setGame(game);
-
-        while (true) {
-            data.getMainMenu().initializeView(data.getMainMenuOptions());
-            PlayerInteractListener.onPlayerInteract(data);
-        }
-
     }
 }

@@ -13,11 +13,12 @@ import com.googlecode.lanterna.terminal.Terminal;
 import model.Ghost;
 import model.PacManCurrentPosition;
 
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.List;
 
 public class PlayerInteractListener {
-    public static void onPlayerInteract(DataBase data) throws IOException, InterruptedException {
+    public static void onPlayerInteract(DataBase data, KeyEvent event) throws IOException, InterruptedException {
         if (data.isInMainMenu()) {
             manageMainMenu(data);
         }
@@ -39,9 +40,9 @@ public class PlayerInteractListener {
 
     public static void manageMainMenu(DataBase data) throws IOException {
         while (data.isInMainMenu()) {
-            Terminal terminal = data.getTerminal();
-            Screen screen = data.getScreen();
-            KeyStroke keyStroke = terminal.pollInput();
+//            Terminal terminal = data.getTerminal();
+//            Screen screen = data.getScreen();
+            KeyStroke keyStroke = null;
             if (keyStroke != null) {
                 switch (keyStroke.getKeyType()) {
                     case ArrowUp:
@@ -87,9 +88,9 @@ public class PlayerInteractListener {
 
     public static void manageSettingsMenu(DataBase data) throws IOException {
         while (data.isInSettings()) {
-            Terminal terminal = data.getTerminal();
-            Screen screen = data.getScreen();
-            KeyStroke keyStroke = terminal.pollInput();
+//            Terminal terminal = data.getTerminal();
+//            Screen screen = data.getScreen();
+            KeyStroke keyStroke = null;
             if (keyStroke != null) {
                 switch (keyStroke.getKeyType()) {
                     case ArrowUp:
@@ -149,9 +150,9 @@ public class PlayerInteractListener {
 
     public static void manageTopPlayersMenu(DataBase data) throws IOException {
         while (data.isInTopPlayers()) {
-            Terminal terminal = data.getTerminal();
-            Screen screen = data.getScreen();
-            KeyStroke keyStroke = terminal.pollInput();
+//            Terminal terminal = data.getTerminal();
+//            Screen screen = data.getScreen();
+            KeyStroke keyStroke = null;
             if (keyStroke != null) {
                 switch (keyStroke.getKeyType()) {
                     case ArrowUp:
@@ -175,8 +176,8 @@ public class PlayerInteractListener {
         StringBuilder builder = new StringBuilder("");
         boolean hasDefaultName = true;
         while (hasDefaultName) {
-            Terminal terminal = data.getTerminal();
-            KeyStroke keyStroke = terminal.pollInput();
+//            Terminal terminal = data.getTerminal();
+            KeyStroke keyStroke = null;
 
             if (keyStroke != null) {
                 switch (keyStroke.getKeyType()) {
@@ -264,8 +265,7 @@ public class PlayerInteractListener {
 //        data.addAmountOfGhosts(ghost2.getRowPosition(), ghost1.getColPosition(), 1);
 //        data.addAmountOfGhosts(ghost3.getRowPosition(), ghost1.getColPosition(), 1);
         while (data.isInGame()) {
-            Terminal terminal = data.getTerminal();
-            KeyStroke keyStroke = terminal.pollInput();
+            KeyStroke keyStroke = null;
             if (keyStroke != null) {
                 boolean isArrowPressed = false;
                 switch (keyStroke.getKeyType()) {
@@ -526,8 +526,8 @@ public class PlayerInteractListener {
             data.setAmountOfGhosts(null);
             data.setCurrentPoints(0);
             data.getGhosts().clear();
-            Terminal terminal = data.getTerminal();
-            keyStroke = terminal.pollInput();
+//            Terminal terminal = data.getTerminal();
+            keyStroke = null;
             if (keyStroke != null) {
                 if (keyStroke.getKeyType().equals(KeyType.Enter)) {
                     data.getGame().clear();
@@ -541,8 +541,8 @@ public class PlayerInteractListener {
         data.getGame().roundWon();
         KeyStroke keyStroke = null;
         while (keyStroke == null) {
-            Terminal terminal = data.getTerminal();
-             keyStroke = terminal.pollInput();
+//            Terminal terminal = data.getTerminal();
+             keyStroke = null;
             if (keyStroke != null) {
                 if (keyStroke.getKeyType().equals(KeyType.Enter)) {
                     data.setMap(null);
