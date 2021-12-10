@@ -41,7 +41,6 @@ public class Game {
             for (int x = 0; x < 51; x++) {
                 if (map[y][x] != '*') {
                     if (map[y][x] == '▅' || map[y][x] == '▉') {
-
                         textGraphics.setForegroundColor(TextColor.ANSI.BLUE);
                         textGraphics.putString(position.getColumn() + x, position.getRow() + y, String.valueOf(map[y][x]), SGR.FRAKTUR);
                     } else if (map[y][x] == 'C') {

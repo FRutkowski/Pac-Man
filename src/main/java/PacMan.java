@@ -25,11 +25,6 @@ public class PacMan extends JPanel {
 
         pacMan.addKeyListener(new KeyAdapter() {
             @Override
-            public void keyTyped(KeyEvent e) {
-                super.keyTyped(e);
-            }
-
-            @Override
             public void keyPressed(KeyEvent event) {
                 super.keyPressed(event);
                 try {
@@ -38,13 +33,7 @@ public class PacMan extends JPanel {
                     e.printStackTrace();
                 }
             }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                super.keyReleased(e);
-            }
         });
-
     }
 
     public PacMan(DataBase data) throws IOException, FontFormatException {
@@ -56,5 +45,11 @@ public class PacMan extends JPanel {
         data.setSettingsMenu(menuSettings);
         data.setTopPlayers(topPlayers);
         data.setGame(game);
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+//        g.drawImage();
     }
 }

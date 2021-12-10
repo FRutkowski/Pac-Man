@@ -10,6 +10,7 @@ import com.googlecode.lanterna.terminal.Terminal;
 import view.Settings;
 import view.TopPlayers;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,7 @@ public class DataBase {
             "BACK"
     };
 
+    private ImageIcon backgroundImage;
     private boolean isInMainMenu = true;
     private boolean isInSettings = false;
     private boolean isInTopPlayers = false;
